@@ -1,0 +1,17 @@
+{
+    "name": "Flownode/Flownode-php",
+    "description": "",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "lcallarec",
+            "email": "l.callarec@gmail.com"
+        }
+    ],
+     "autoload": {
+        "psr-0": {"Flownode": "src/"}
+    },
+    "require": {
+
+    }
+}
