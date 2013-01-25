@@ -1,8 +1,6 @@
 <?php
 namespace Flownode\UI\Common\DOM;
 
-use Flownode\UI\Common\DOM\Node;
-
 /**
  * Basic node to build HTML Elements
  *
@@ -11,7 +9,7 @@ use Flownode\UI\Common\DOM\Node;
  *
  * @author lcallarec
  */
-class Element extends Node
+class Element extends \Flownode\UI\Common\DOM\Node
 {
 
     /**
@@ -76,7 +74,7 @@ class Element extends Node
     public function addChild(Node $node)
     {
         $node->setLevel($this->level + 1);
-        
+
         parent::addChild($node);
 
         return $this;

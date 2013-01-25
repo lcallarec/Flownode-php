@@ -1,5 +1,4 @@
 <?php
-
 namespace Flownode\UI\Common\DOM;
 
 /**
@@ -150,7 +149,7 @@ class Node
     }
 
     /**
-     * Set the parent node of the current node
+     * get the parent node of the current node
      *
      * @return Flownode\Commin\DOM\Node
      */
