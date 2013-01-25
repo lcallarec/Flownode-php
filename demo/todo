@@ -1,0 +1,44 @@
+- Ajout Universal class loader Symfony2
+- Ajout DependencyInjection Symfony2 ? A voir
+
+Priorités :
+
+1 - Faire marcher le Node standard + test
+2 - Créer un DataNode, afin de binder une DataSource avec les tokens du Node
+
+ex:
+
+$node = new DataNode('div', $data);
+
+$node->foreach()
+        ->setText('%CustId%', function($raw) { return $this->formatter->strongify($raw)})
+     ->endForeach()->closeNode();
+
+3 kinds of decorators :
+
+1- Decorators
+2- DataFormatters
+3- ConditionalDecorators
+4- ChainedDecodators
+5- ChainedFormatters
+
+All of this can be :
+
+1- A closure or an anonymous function
+2- A public method of an object
+3- A static public method of a class
+
+$grid = new DataGrid($id, $data);
+
+$grid->setGridAttributes();
+$grid->setTBodyAttributes();
+$grid->setTHeadAttributes();
+$grid->setTHeadCellsAttributes();
+$grid->setTBodyCellsAttributes();
+
+$grid->setRowCycler(array('red', 'blue', 'green'));
+
+$grid->setColumn(0, 'CustId');
+
+$grid->setColumnAttribute(DataGrodColumn::SHOW, false);
+
