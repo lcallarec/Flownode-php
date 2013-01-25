@@ -1,6 +1,8 @@
 Flownode-php
 ============
 
+[![Build Status](https://travis-ci.org/lcallarec/Flownode-php.png)](https://travis-ci.org/lcallarec/Flownode-php)
+
 UI Components, request and response management for asynchronous client request.
 
 
@@ -8,7 +10,7 @@ UI Components, request and response management for asynchronous client request.
 
 ###1. Flownode.UI
 
-Flownode for php 5.3+ aims to build UI components on server-side, which is not a "natural" way for php-developpers. 
+Flownode for php 5.3+ aims to build UI components on server-side, which is not a "natural" way for php-developpers.
 
 Yes, a lot a php-framework manage forms components, like Symfony. Prado framework introduces a component approach in a quite similar way of Aspx or JavaServerFaces. But assuming that php-coded applications works behind a web server and DotNet / J2EE web applications works inside an application server, we can just mimic them in php.
 
