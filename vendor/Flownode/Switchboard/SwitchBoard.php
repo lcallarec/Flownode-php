@@ -1,8 +1,8 @@
 <?php
 namespace Flownode\Switchboard;
 
-use Flownode\Flownode\Switchboard\Channels;
-use Switchboard\Response;
+use Flownode\Switchboard\Channels;
+use Flownode\Switchboard\Response;
 
 /**
  *
