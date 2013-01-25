@@ -1,7 +1,7 @@
 <?php
-namespace Flownode\Common\Data\Collection;
+namespace Flownode\Common\Data;
 
-class Collection extends ArrayObject
+class Collection extends \ArrayObject
 {
 
 	/**
@@ -353,8 +353,8 @@ class Collection extends ArrayObject
 	 */
 	public function getIterator()
 	{
-		$this->iterator = new ArrayIterator($this);
-    return $this->iterator;
+		$this->iterator = new \ArrayIterator($this);
+        return $this->iterator;
 	}
 
 	/**
