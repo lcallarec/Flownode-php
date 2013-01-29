@@ -1,5 +1,5 @@
 <?php
-namespace Flownode\SwitchBoard;
+namespace Flownode\Switchboard;
 
 use Flownode\Common\Data\Collection;
 

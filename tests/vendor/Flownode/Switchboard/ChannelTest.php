@@ -1,5 +1,5 @@
 <?php
-namespace Flownode\SwitchBoard;
+namespace Flownode\Switchboard;
 
 /**
  * Test class for Channel.

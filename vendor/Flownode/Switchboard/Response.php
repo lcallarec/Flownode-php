@@ -1,8 +1,8 @@
 <?php
-namespace Flownode\SwitchBoard;
+namespace Flownode\Switchboard;
 
-use Flownode\SwitchBoard\Channels;
-use Flownode\SwitchBoard\Channel;
+use Flownode\Switchboard\Channels;
+use Flownode\Switchboard\Channel;
 
 /**
  * Response sent (back) to the client
