@@ -9,9 +9,9 @@
         }
     ],
      "autoload": {
-        "psr-0": {"Flownode": "vendor/"}
+        "psr-0": {"Flownode": "src/"}
     },
     "require": {
-
+      "tcpdf/tcpdf": "dev-master"
     }
 }
