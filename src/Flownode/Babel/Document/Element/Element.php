@@ -2,7 +2,6 @@
 namespace Flownode\Babel\Document\Element;
 
 use
-  Flownode\Babel\Document\Element\ElementInterface,
   Flownode\Babel\Formatter\FormatterInterface
 ;
 
@@ -16,13 +15,6 @@ abstract class Element extends \ArrayObject implements ElementInterface
 
   protected $formatter = null;
 
-  protected $childs = array();
-
-  public function __construct()
-  {
-    parent::__construct($this->childs);
-  }
-
   public function setFormatter(FormatterInterface $formatter)
   {
     $this->formatter = $formatter;
@@ -32,7 +24,8 @@ abstract class Element extends \ArrayObject implements ElementInterface
 
   public function format()
   {
-    foreach($this->childs as $part)
+
+    foreach($this as $part)
     {
       $part->format();
     }
