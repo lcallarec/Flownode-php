@@ -41,7 +41,7 @@ class Paragraph extends Element
   public function format()
   {
     parent::format();
-    $this->formatter->addParagraph($this->text);
+    $this->formatter->addParagraph($this->text, \Flownode\Babel\Styles\HtmlStyles::get('default'));
 
     return $this;
   }

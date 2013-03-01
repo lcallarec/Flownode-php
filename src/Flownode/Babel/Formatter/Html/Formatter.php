@@ -9,7 +9,10 @@
  */
 namespace Flownode\Babel\Formatter\Html;
 
-use Flownode\Babel\Formatter\FormatterInterface;
+use
+  Flownode\Babel\Formatter\FormatterInterface,
+  Flownode\Babel\Styles\HtmlStyles;
+;
 
 /**
  * HTML Formatter
@@ -18,6 +21,7 @@ use Flownode\Babel\Formatter\FormatterInterface;
  */
 class Formatter implements FormatterInterface
 {
+
   /**
    * Formatter content
    *
@@ -27,16 +31,21 @@ class Formatter implements FormatterInterface
 
   public function __construct()
   {
+     HtmlStyles::set('default', function($value, $formatter) {
 
+       return array('style' => 'color: red;');
+
+     });
   }
 
   /**
    * Add a paragraph
    * @param string $content
    */
-  public function addParagraph($content = '')
+  public function addParagraph($content = '', $style)
   {
-    $this->content .= '<p>'.$content.'</p>';
+    $attributes = $this->formatStyle($style($content, $this));
+    $this->content .= '<p '.$attributes.'>'.$content.'</p>';
   }
 
   /**
@@ -66,6 +75,11 @@ class Formatter implements FormatterInterface
   public function getContent()
   {
     return $this->content;
+  }
+
+  protected function formatStyle($style)
+  {
+    return key($style).'="'.current($style).'"';
   }
 
 }

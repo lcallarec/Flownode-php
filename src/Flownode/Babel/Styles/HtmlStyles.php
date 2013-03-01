@@ -7,18 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Flownode\Babel\Formatter;
-
+namespace Flownode\Babel\Styles;
 /**
- * Common interface for all formatters
+ * Class for handling styles
  *
  * @author Laurent CALLAREC <lcallarec@gmail.com>
  */
-interface FormatterInterface
+class HtmlStyles extends Styles
 {
 
-  public function getContent();
-  public function addParagraph($text = '', $style);
-  public function addTitle($title = '', $level = 1, $suffix = '. ');
 }
-
