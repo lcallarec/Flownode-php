@@ -20,12 +20,12 @@ class Formatter implements FormatterInterface
 
   public function addParagraph($content = '')
   {
-    $this->content .= '<p>'.$content.'<p>';
+    $this->content .= '<p>'.$content.'</p>';
   }
 
   public function addTitle($title = '', $level = 1, $suffix = '. ')
   {
-    $this->content .= '<h'.$level.'>'.$suffix.$title.'<h'.$level.'>';
+    $this->content .= '<h'.$level.'>'.$suffix.$title.'</h'.$level.'>';
   }
 
   public function addCell($value)
