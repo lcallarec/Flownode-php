@@ -1,16 +1,14 @@
 <?php
-namespace Flownode\Babel\Component\Base;
-
+namespace Flownode\Babel\Document\Element;
 use
-  Flownode\Babel\Component\Component
+  Flownode\Babel\Document\Element\Element
 ;
-
 /**
  * Description of Grid
  *
  * @author lcallarec
  */
-class Paragraph extends Component
+class Paragraph extends Element
 {
   protected $text;
 
@@ -22,6 +20,11 @@ class Paragraph extends Component
   public function format()
   {
     $this->formatter->addParagraph($this->text);
+  }
+
+  public function add(ElementInterface $part)
+  {
+    $this->append($part);
   }
 }
 

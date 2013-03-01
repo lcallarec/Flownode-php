@@ -1,10 +1,6 @@
 <?php
 namespace Flownode\Babel\Formatter;
 
-use
-  Flownode\Babel\Component\ComponentInterface,
-  Flownode\Babel\Formatter\FormatterInterface
-;
 /**
  * Description of Grid
  *
@@ -14,5 +10,7 @@ interface FormatterInterface
 {
 
   public function getContent();
+  public function addParagraph($text = '');
+  public function addTitle($title = '', $level = 1, $suffix = '. ');
 }
 

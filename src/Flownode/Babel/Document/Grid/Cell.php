@@ -1,28 +1,33 @@
 <?php
-namespace Flownode\Babel\Grid;
+namespace Flownode\Babel\Component\Grid;
+
+use
+  Flownode\Babel\Document\Element\Element
+;
 
 /**
  * Description of Grid
  *
  * @author lcallarec
  */
-class Part extends \ArrayObject
+class Cell extends Element
 {
-  protected $formatter = null;
+  protected $content = '';
 
-  public function __construct()
+  public function __construct($content)
   {
-
+    $this->content = $content;
   }
 
-  public function addContent($c)
+  public function add(GridItem $item)
   {
-    $this->formatter->addParagraph($c);
+    $this->append($item);
   }
 
-  public function setFormatter($formatter)
+  public function format()
   {
-    $this->formatter = $formatter;
+    $this->formatter->addCell($this->content);
   }
+
 }
 

@@ -1,8 +1,8 @@
 <?php
-namespace Flownode\Babel\Component;
+namespace Flownode\Babel\Document\Element;
 
 use
-  Flownode\Babel\Component\ComponentInterface,
+  Flownode\Babel\Document\Element\ElementInterface,
   Flownode\Babel\Formatter\FormatterInterface
 ;
 
@@ -11,10 +11,17 @@ use
  *
  * @author lcallarec
  */
-abstract class Component implements ComponentInterface
+abstract class Element extends \ArrayObject implements ElementInterface
 {
 
   protected $formatter = null;
+
+  protected $childs = array();
+
+  public function __construct()
+  {
+    parent::__construct($this->childs);
+  }
 
   public function setFormatter(FormatterInterface $formatter)
   {
@@ -22,4 +29,13 @@ abstract class Component implements ComponentInterface
 
     return $this;
   }
+
+  public function format()
+  {
+    foreach($this->childs as $part)
+    {
+      $part->format();
+    }
+  }
+
 }

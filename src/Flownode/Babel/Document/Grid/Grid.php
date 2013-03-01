@@ -1,40 +1,34 @@
 <?php
-namespace Flownode\Babel\Grid;
+namespace Flownode\Babel\Document\Grid;
 
-use Flownode\Babel\Component\Document\Document;
+use
+  Flownode\Babel\Document\Element\Element,
+  Flownode\Babel\Document\Grid\Cell
+;
 
 /**
  * Description of Grid
  *
  * @author lcallarec
  */
-class Grid extends Document
+class Grid extends Element
 {
   protected $formatter = null;
 
-  protected $parts  = null;
+  protected $columns = array();
 
   protected $width  = null;
 
-  public function __construct($formatter)
+  public function __construct()
   {
-    $this->formatter = $formatter;
+    parent::__construct($this->childs);
   }
 
-  public function addPart(Part $part)
+  public function addHeader(Cell $cell)
   {
-    $part->setFormatter($this->formatter);
-    $this->append($part);
+    $this->append($cell);
   }
 
-  public function getContent()
-  {
-   return $this->formatter->getContent();
-  }
 
-  public function getFormatter()
-  {
-    return $this->formatter;
-  }
 }
 

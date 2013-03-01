@@ -1,5 +1,5 @@
 <?php
-namespace Flownode\Babel\Component;
+namespace Flownode\Babel\Document\Element;
 use
   Flownode\Babel\Formatter\FormatterInterface
 ;
@@ -8,7 +8,7 @@ use
  *
  * @author lcallarec
  */
-interface ComponentInterface
+interface ElementInterface
 {
   public function format();
 

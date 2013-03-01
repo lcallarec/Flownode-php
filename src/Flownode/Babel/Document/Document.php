@@ -1,9 +1,9 @@
 <?php
-namespace Flownode\Babel\Component\Document;
+namespace Flownode\Babel\Document;
 
 use
-  Flownode\Babel\Component\ComponentInterface,
-   Flownode\Babel\Formatter\FormatterInterface
+  Flownode\Babel\Document\Element\ElementInterface,
+  Flownode\Babel\Formatter\FormatterInterface
 ;
 
 
@@ -12,7 +12,7 @@ use
  *
  * @author lcallarec
  */
-class Document extends \ArrayObject
+class Document extends \ArrayObject implements ElementInterface
 {
   protected $components = array();
 
@@ -25,7 +25,7 @@ class Document extends \ArrayObject
     parent::__construct($this->components);
   }
 
-  public function add(ComponentInterface $component)
+  public function add(ElementInterface $component)
   {
     $this->append($component);
 

@@ -1,14 +1,14 @@
 <?php
-namespace Flownode\Babel\Component\Base;
+namespace Flownode\Babel\Document\Element;
 use
-  Flownode\Babel\Component\Component
+  Flownode\Babel\Document\Element\Element
 ;
 /**
  * Description of Grid
  *
  * @author lcallarec
  */
-class Title extends Component
+class Title extends Element
 {
   protected $title;
 
@@ -20,6 +20,11 @@ class Title extends Component
   public function format()
   {
     $this->formatter->addTitle($this->title);
+  }
+
+  public function add(ElementInterface $part)
+  {
+    $this->append($part);
   }
 
 }
