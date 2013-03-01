@@ -1,0 +1,68 @@
+{
+    "hash": "d119e85d22cc8e94858ced577312d7fe",
+    "packages": [
+        {
+            "name": "tcpdf/tcpdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git://tcpdf.git.sourceforge.net/gitroot/tcpdf/tcpdf",
+                "reference": "f2aa41dd8252ad6321bad88776889b75b127a60c"
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "time": "1348597020",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "classmap": [
+                    "fonts",
+                    "config/lang",
+                    "config",
+                    "2dbarcodes.php",
+                    "barcodes.php",
+                    "datamatrix.php",
+                    "encodings_maps.php",
+                    "htmlcolors.php",
+                    "pdf417.php",
+                    "qrcode.php",
+                    "spotcolors.php",
+                    "tcpdf.php",
+                    "tcpdf_filters.php",
+                    "tcpdf_parser.php",
+                    "unicode_data.php"
+                ]
+            },
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "homepage": "http://nicolaasuni.tecnick.com"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "pdf",
+                "TCPDF",
+                "qrcode",
+                "PDFD32000-2008",
+                "datamatrix",
+                "pdf417",
+                "barcodes"
+            ]
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "tcpdf/tcpdf": 20
+    }
+}

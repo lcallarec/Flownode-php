@@ -1,5 +1,5 @@
 {
-    "name": "Flownode/Flownode-php",
+    "name": "flownode/flownode",
     "description": "",
     "minimum-stability": "dev",
     "authors": [
@@ -12,6 +12,7 @@
         "psr-0": {"Flownode": "src/"}
     },
     "require": {
-      "tcpdf/tcpdf": "dev-master"
+      "tcpdf/tcpdf": "dev-master",
+     " phpexcel/phpexcel" : ">=1.7.7"
     }
 }
