@@ -1,4 +1,13 @@
 <?php
+/**
+ * This file is part of the Flownode package
+ *
+ * (c) Laurent CALLAREC <lcallarec@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Flownode\Babel\Document;
 
 use
@@ -6,11 +15,9 @@ use
   Flownode\Babel\Formatter\FormatterInterface
 ;
 
-
 /**
- * Description of Grid
  *
- * @author lcallarec
+ * @author Laurent CALLAREC <lcallarec@gmail.com>
  */
 class Document extends \ArrayObject implements ElementInterface
 {

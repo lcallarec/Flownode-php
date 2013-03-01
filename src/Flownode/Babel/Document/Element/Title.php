@@ -1,26 +1,48 @@
 <?php
+/**
+ * This file is part of the Flownode package
+ *
+ * (c) Laurent CALLAREC <lcallarec@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Flownode\Babel\Document\Element;
 use
   Flownode\Babel\Document\Element\Element
 ;
 /**
- * Description of Grid
+ * Write document titles
  *
- * @author lcallarec
+ * @author Laurent CALLAREC <lcallarec@gmail.com>
  */
 class Title extends Element
 {
+  /**
+   * Document title
+   * @var string
+   */
   protected $title;
 
+  /**
+   *
+   * @param string $title
+   */
   public function __construct($title = '')
   {
     $this->title = $title;
   }
 
+  /**
+   * Laucnh format process
+   * @return \Flownode\Babel\Document\Element\Title
+   */
   public function format()
   {
     parent::format();
     $this->formatter->addTitle($this->title);
+
+    return $this;
   }
 
   public function add(ElementInterface $part)

@@ -1,6 +1,7 @@
 <?php
 namespace Flownode\Common\Formatter;
 
+
 abstract class Formatter implements Flownode\Common\Formatter\FormatterInterface
 {
 

@@ -1,20 +1,37 @@
 <?php
+/**
+ * This file is part of the Flownode package
+ *
+ * (c) Laurent CALLAREC <lcallarec@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Flownode\Babel\Document\Element;
 
 use
   Flownode\Babel\Formatter\FormatterInterface
 ;
-
 /**
- * Description of Grid
+ * Abstract class inherited by all Elements
  *
- * @author lcallarec
+ * @author Laurent CALLAREC <lcallarec@gmail.com>
  */
 abstract class Element extends \ArrayObject implements ElementInterface
 {
 
+  /**
+   * Formatter
+   *
+   * @var Flownode\Babel\Formatter\FormatterInterface
+   */
   protected $formatter = null;
 
+  /**
+   *
+   * @param \Flownode\Babel\Formatter\FormatterInterface $formatter
+   * @return \Flownode\Babel\Document\Element\Element
+   */
   public function setFormatter(FormatterInterface $formatter)
   {
     $this->formatter = $formatter;
@@ -22,13 +39,18 @@ abstract class Element extends \ArrayObject implements ElementInterface
     return $this;
   }
 
+ /**
+  * Laucnh format process
+  * @return \Flownode\Babel\Document\Element\Element
+  */
   public function format()
   {
-
     foreach($this as $part)
     {
       $part->format();
     }
+
+    return $this;
   }
 
 }
