@@ -70,6 +70,39 @@ class Formatter implements FormatterInterface
 
   /**
    *
+   * @param array $headers
+   * @param array $body
+   */
+  public function addGrid($headers, $body)
+  {
+    $gridParts = array_merge($headers, $body);
+    $contents = '';
+    foreach($gridParts as $parts)
+    {
+      $contents .= '<tr>';
+      foreach($parts as $content => $style)
+      {
+        if($style instanceof \Closure)
+        {
+          $attributes = $this->formatStyle($style($content, $this));
+        }
+        else
+        {
+          $attributes = '';
+        }
+
+        $contents .= '<td '.$attributes.'>'.$content.'</td>';
+
+      }
+      $contents .= '</tr>';
+    }
+
+    $this->content .= '<table>'.$contents.'</table>';
+  }
+
+
+  /**
+   *
    * @return string
    */
   public function getContent()
@@ -77,9 +110,19 @@ class Formatter implements FormatterInterface
     return $this->content;
   }
 
-  protected function formatStyle($style)
+  /**
+   * Transform an array of attributes into a string
+   * @param array $styles
+   * @return string
+   */
+  protected function formatStyle($styles)
   {
-    return key($style).'="'.current($style).'"';
+    $sStyles = '';
+    foreach($styles as $attribute => $value)
+    {
+      $sStyles .= $attribute.'="'.$value.'" ';
+    }
+    return $sStyles;
   }
 
 }

@@ -21,20 +21,52 @@ class Grid extends Element
 {
   protected $formatter = null;
 
-  protected $columns = array();
+  /**
+   *
+   * @var array
+   */
+  protected $headers;
 
-  protected $width  = null;
+  /**
+   *
+   * @var array
+   */
+  protected $body = array();
 
-  public function __construct()
+  /**
+   * Laucnh format process
+   * @return \Flownode\Babel\Document\Element\Paragraph
+   */
+  public function format()
   {
-    parent::__construct($this->childs);
+    $this->formatter->addGrid($this->headers, $this->body);
+
+    return $this;
   }
 
-  public function addHeader(Cell $cell)
+  /**
+   * Add headers, only one set of headers can be set
+   * @param array $headers
+   * @return \Flownode\Babel\Document\Grid\Grid
+   */
+  public function setHeaders(array $headers)
   {
-    $this->append($cell);
+    $this->headers = array($headers);
+
+    return $this;
   }
 
+  /**
+   * Add body parts, sevral are possible for a grid
+   *
+   * @param array $body
+   * @return \Flownode\Babel\Document\Grid\Grid
+   */
+  public function addBodyPart(array $body)
+  {
+    $this->body[] = $body;
 
+    return $this;
+  }
 }
 
