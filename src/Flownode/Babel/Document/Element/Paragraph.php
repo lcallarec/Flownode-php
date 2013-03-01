@@ -9,8 +9,7 @@
  */
 namespace Flownode\Babel\Document\Element;
 use
-  Flownode\Babel\Document\Element\Element,
-  Flownode\Babel\Document\Element\ElementInterface
+  Flownode\Babel\Document\Element\Element
 ;
 /**
  *
@@ -40,19 +39,9 @@ class Paragraph extends Element
    */
   public function format()
   {
-    parent::format();
     $this->formatter->addParagraph($this->text, \Flownode\Babel\Styles\HtmlStyles::get('default'));
 
     return $this;
-  }
-
-  /**
-   * For adding Element
-   * @param \Flownode\Babel\Document\Element\ElementInterface $part
-   */
-  public function add(ElementInterface $part)
-  {
-    $this->append($part);
   }
 }
 

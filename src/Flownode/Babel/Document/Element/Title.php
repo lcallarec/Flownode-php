@@ -39,15 +39,9 @@ class Title extends Element
    */
   public function format()
   {
-    parent::format();
     $this->formatter->addTitle($this->title);
 
     return $this;
-  }
-
-  public function add(ElementInterface $part)
-  {
-    $this->append($part);
   }
 
 }
