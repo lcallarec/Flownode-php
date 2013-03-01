@@ -19,6 +19,7 @@ class Title extends Element
 
   public function format()
   {
+    parent::format();
     $this->formatter->addTitle($this->title);
   }
 

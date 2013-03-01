@@ -1,7 +1,8 @@
 <?php
 namespace Flownode\Babel\Document\Element;
 use
-  Flownode\Babel\Document\Element\Element
+  Flownode\Babel\Document\Element\Element,
+  Flownode\Babel\Document\Element\ElementInterface
 ;
 /**
  * Description of Grid
@@ -19,6 +20,7 @@ class Paragraph extends Element
 
   public function format()
   {
+    parent::format();
     $this->formatter->addParagraph($this->text);
   }
 
