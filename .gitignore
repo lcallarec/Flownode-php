@@ -1,5 +1,4 @@
 /nbproject/private/
 nbproject
-composer
-autoload.php
+/vendor/
 /index.php
