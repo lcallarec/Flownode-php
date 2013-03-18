@@ -8,17 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Flownode\Babel\Document\Grid\Formatter;
-
-use
-  Flownode\Babel\Formatter\Html\Formatter
-;
+namespace Flownode\Babel\Formatter\Html;
 
 /**
  *
  * @author Laurent CALLAREC <lcallarec@gmail.com>
  */
-class HtmlFormatter
+class GridFormatter
 {
   /**
    *
