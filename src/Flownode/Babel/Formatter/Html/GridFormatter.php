@@ -56,7 +56,7 @@ class GridFormatter
       }
 
       $this->formatter->append('<tr '.$attributes.'>');
-      foreach($columns as $column)
+      foreach($this->columns as $column)
       {
         $value = $column->getValue($row);
         $columnDecorator = $column->getColumnDecorator();

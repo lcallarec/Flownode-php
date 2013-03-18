@@ -11,7 +11,7 @@ namespace Flownode\Babel\Formatter\Html;
 
 use
   Flownode\Babel\Formatter\Formatter as AbstractFormatter,
-  Flownode\Babel\Document\Grid\Formatter\HtmlFormatter,
+  Flownode\Babel\Formatter\Html\GridFormatter,
   Flownode\Babel\Styles\HtmlStyles;
 ;
 
@@ -89,7 +89,7 @@ class Formatter extends AbstractFormatter
 
     $attributes = $this->formatStyle($style($title, $this));
 
-    $this->content .= '<h'.$level.' '.$attributes.'>'.$this->getTitlePrefix($level).$title.'</h'.$level.'>';
+    $this->content .= '<h'.$level.' '.$attributes.'>'.$this->titleManager->getTitlePrefix($level).$title.'</h'.$level.'>';
   }
 
   /**
@@ -100,7 +100,7 @@ class Formatter extends AbstractFormatter
   public function addGrid($columns, $datas, $rowDecorator = null)
   {
 
-    $grid = new HtmlFormatter($this, $columns, $datas);
+    $grid = new GridFormatter($this, $columns, $datas);
     $grid->setRowDecorator($rowDecorator);
 
     $this->content .= '<table>';
