@@ -16,56 +16,77 @@ use
 ;
 
 /**
+ * Main Document wrapper
  *
- * @author Laurent CALLAREC <lcallarec@gmail.com>
+ * Be careful : the format is only done when Document::format() is called
+ * So all your components can be modified during runtime before Document::format() call
+ *
+ * @author Laurent CALLAREC <l.callarec@gmail.com>
  */
 class Document extends \ArrayObject implements ElementInterface
 {
-  protected $components = array();
-
+  /**
+   * \Flownode\Babel\Formatter\FormatterInterface
+   * @var FormatterInterface
+   */
   protected $formatter;
 
+  /**
+   *
+   * @param \Flownode\Babel\Formatter\FormatterInterface $formatter
+   */
   public function __construct(FormatterInterface $formatter = null)
   {
     $this->formatter = $formatter;
-
-    parent::__construct($this->components);
   }
 
+  /**
+   * Add a component to the document
+   *
+   * @param \Flownode\Babel\Document\Element\ElementInterface $component
+   * @return \Flownode\Babel\Document\Element\ElementInterface
+   */
   public function add(ElementInterface $component)
   {
     $this->append($component);
+
+    return $component;
   }
 
-
-  public function setFormatter(FormatterInterface $formatter)
-  {
-    $this->formatter = $formatter;
-
-    foreach($this as $component)
-    {
-      $component->setFormatter($formatter);
-    }
-
-    return $this;
-  }
-
+  /**
+   * Launch format process
+   *
+   * @return \Flownode\Babel\Document\Document
+   */
   public function format()
   {
-    $this->setFormatter($this->formatter);
-
     foreach($this as $component)
     {
-      $component->format();
+      $component->setFormatter($this->formatter)->format();
     }
 
     return $this;
   }
 
+  /**
+   * Return the formatted content, which could not be human readable
+   *
+   * @return mixed
+   */
   public function getContent()
   {
     return $this->formatter->getContent();
   }
 
-}
+  /**
+   *
+   * @param \Flownode\Babel\Formatter\FormatterInterface $formatter
+   * @return self
+   */
+  public function setFormatter(FormatterInterface $formatter)
+  {
+    $this->formatter = $formatter;
 
+    return $this;
+  }
+}
