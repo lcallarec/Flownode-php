@@ -11,7 +11,7 @@ namespace Flownode\Babel\Document\Element;
 
 use
   Flownode\Babel\Formatter\FormatterInterface,
-  Flownode\Babel\Document\Document
+  Flownode\Babel\Decorator\Decorator
 ;
 /**
  * Abstract class inherited by all Elements
@@ -27,6 +27,13 @@ abstract class Element extends \ArrayObject implements ElementInterface
    * @var Flownode\Babel\Formatter\FormatterInterface
    */
   protected $formatter = null;
+
+  /**
+   * Decorator rules
+   *
+   * @var string | array
+   */
+  protected $rules;
 
   /**
    *

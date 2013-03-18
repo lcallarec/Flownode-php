@@ -10,6 +10,10 @@
  */
 namespace Flownode\Babel\Formatter\Html;
 
+use
+  Flownode\Babel\Decorator\Decorator
+;
+
 /**
  *
  * @author Laurent CALLAREC <lcallarec@gmail.com>
@@ -22,11 +26,18 @@ class GridFormatter
    */
   protected $formatter;
 
+  /**
+   *
+   * @var Flownode\Babel\Decorator\Decorator;
+   */
+  protected $decorator;
+
   protected $rowDecorator = null;
 
   public function __construct(Formatter $formatter, $columns, $datas)
   {
     $this->formatter = $formatter;
+    $this->decorator = $formatter->getDecorator();
     $this->columns = $columns;
     $this->datas   = $datas;
   }
@@ -46,13 +57,11 @@ class GridFormatter
 
     foreach($this->datas as $i => $row)
     {
-      if(null !== $decorator = $this->rowDecorator)
+      $attributes = array();
+      if(null !== $this->rowDecorator)
       {
+        $decorator = $this->decorator->get($this->rowDecorator);
         $attributes = $this->formatter->formatStyle($decorator($row, $i, $this));
-      }
-      else
-      {
-        $attributes = '';
       }
 
       $this->formatter->append('<tr '.$attributes.'>');

@@ -2,18 +2,18 @@
 /**
  * This file is part of the Flownode package
  *
- * (c) Laurent CALLAREC <lcallarec@gmail.com>
+ * (c) Laurent CALLAREC <l.callarec@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Flownode\Babel\Styles;
+namespace Flownode\Babel\Decorator;
 /**
  * Abstract class for handling styles
  *
- * @author Laurent CALLAREC <lcallarec@gmail.com>
+ * @author Laurent CALLAREC <l.callarec@gmail.com>
  */
-abstract class Styles
+abstract class Decorator
 {
   /**
    * Contain all styles definitions
@@ -21,17 +21,25 @@ abstract class Styles
    * value : Closure  function to apply
    * @var array
    */
-  static protected $styles = array();
+  protected $closures = array();
 
-  private function __construct(){}
-
-  static public function set($style, \Closure $function)
+  public function __construct()
   {
-    self::$styles[$style] = $function;
+
   }
 
-  static function get($style)
+  public function set($name, \Closure $decorator)
   {
-    return self::$styles[$style];
+    $this->closures[$name] = $decorator;
+  }
+
+  function get($name = null)
+  {
+    if(null !== $name)
+    {
+      return $this->closures[$name];
+    }
+
+    return null;
   }
 }

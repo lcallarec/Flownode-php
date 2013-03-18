@@ -30,44 +30,21 @@ class Formatter extends AbstractFormatter
    */
   protected $content = '';
 
-  public function __construct()
+  public function __construct($decorator)
   {
-    parent::__construct();
-
-    HtmlStyles::set('default', function($value, $formatter) {
-
-       return array('style' => 'color: red;');
-
-     });
-
-     HtmlStyles::set('title.0', function($value, $formatter) {
-
-       return array('style' => 'color: red;');
-
-     });
-
-     HtmlStyles::set('title.1', function($value, $formatter) {
-
-       return array('style' => 'font-size: 1.5em; border-bottom: 1px solid grey;');
-
-     });
-
-     HtmlStyles::set('title.2', function($value, $formatter) {
-
-       return array('style' => 'font-size: 1.2em; border-bottom: 1px solid grey;');
-
-     });
+    parent::__construct($decorator);
   }
 
   /**
    * Add a paragraph
    * @param string $content
    */
-  public function addParagraph($content = '', $style = null)
+  public function addParagraph($content = '', $rules = null)
   {
-    if($style)
+    if($rules)
     {
-      $attributes = $this->formatStyle($style($content, $this));
+      $decorator = $this->decorator->get($rules);
+      $attributes = $this->formatStyle($decorator($content, $this));
     }
     else
     {
@@ -83,13 +60,16 @@ class Formatter extends AbstractFormatter
    * @param type $level
    * @param type $suffix
    */
-  public function addTitle($title = '', $level = 0)
+  public function addTitle($title = '', $level = 0, $rules = null)
   {
-    $style = HtmlStyles::get('title.'.$level);
+    $attributes = array();
+    if(null !== $rules)
+    {
+      $decorator = $this->decorator->get($rules);
+      $attributes = $this->formatStyle($decorator($content, $this));
+    }
 
-    $attributes = $this->formatStyle($style($title, $this));
-
-    $this->content .= '<h'.$level.' '.$attributes.'>'.$this->titleManager->getTitlePrefix($level).$title.'</h'.$level.'>';
+    $this->content .= '<h'.$level.' '.$this->formatStyle($attributes).'>'.$this->titleManager->getTitlePrefix($level).$title.'</h'.$level.'>';
   }
 
   /**

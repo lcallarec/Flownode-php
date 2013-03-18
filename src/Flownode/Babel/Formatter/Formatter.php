@@ -11,7 +11,8 @@ namespace Flownode\Babel\Formatter;
 
 use
   Flownode\Babel\Formatter\FormatterInterface,
-  Flownode\Babel\Document\TitleManager
+  Flownode\Babel\Document\TitleManager,
+  Flownode\Babel\Decorator\Decorator
 ;
 /**
  * PDF Formatter using TCPDF
@@ -20,6 +21,13 @@ use
  */
 abstract class Formatter implements FormatterInterface
 {
+
+  /**
+   *
+   * @var Flownode\Babel\Decorator\Decorator
+   */
+  protected $decorator = null;
+
   /**
    *
    * @var TitleManager
@@ -32,9 +40,24 @@ abstract class Formatter implements FormatterInterface
    */
   protected $content;
 
-  public function __construct()
+  /**
+   *
+   * @param Decorator $decorator
+   */
+  public function __construct(Decorator $decorator)
   {
     $this->titleManager = new TitleManager();
+
+    $this->decorator    = $decorator;
+  }
+
+  /**
+   *
+   * @return Decorator
+   */
+  public function getDecorator()
+  {
+    return $this->decorator;
   }
 
 }

@@ -23,9 +23,9 @@ use
 class Formatter extends AbstractFormatter
 {
 
-  public function __construct()
+  public function __construct($decorator)
   {
-    parent::__construct();
+    parent::__construct($decorator);
 
     $this->content = new \TCPDF('P', \PDF_UNIT, 'A4');
 
@@ -47,35 +47,6 @@ class Formatter extends AbstractFormatter
 
     $this->content->AddPage();
 
-    TcpdfStyles::set('default', function($value, $formatter) {
-
-      $formatter->getContent()->SetTextColorArray(array(0, 0, 0));
-
-      $formatter->getContent()->SetFontSize(11);
-      $formatter->getContent()->SetFillColorArray(array(255, 255, 255));
-
-    });
-
-
-     TcpdfStyles::set('title.1', function($value, $formatter) {
-
-        $formatter->getContent()->SetTextColorArray(array(33, 64, 95));
-        $formatter->getContent()->SetFontSize(18);
-
-        return array('B' => array('width' => 0.2, 'color' => array(33, 64, 95)));
-
-     });
-
-     TcpdfStyles::set('title.2', function($value, $formatter) {
-
-        $formatter->getContent()->SetTextColorArray(array(33, 64, 95));
-        $formatter->getContent()->SetFontSize(16);
-
-        return array('B' => array('width' => 0.2, 'color' => array(33, 64, 95)));
-
-     });
-
-
 
 
   }
@@ -84,7 +55,7 @@ class Formatter extends AbstractFormatter
    * Add a paragraph
    * @param string $content
    */
-  public function addParagraph($content = '', $style = null)
+  public function addParagraph($content = '', $rules = null)
   {
     $this->content->Cell(50, 10, $content, 0, 1);
   }
@@ -95,19 +66,22 @@ class Formatter extends AbstractFormatter
    * @param type $level
    * @param type $suffix
    */
-  public function addTitle($title = '', $level = 0)
+  public function addTitle($title = '', $level = 0, $rules = null)
   {
-    $style = TcpdfStyles::get('title.'.$level);
-
-    $borders = $style($title, $this);
+    $borders = array();
+    if(null !== $rules)
+    {
+      $decorator = $this->decorator->get($rules);
+      $borders = $this->formatStyle($decorator($title, $this));
+    }
 
     $this->content->Cell(0, 10, $this->titleManager->getTitlePrefix($level).$title, $borders, 1);
 
     $this->content->Ln(5);
 
-    $style = TcpdfStyles::get('default');
-
-    $style($title, $this);
+//    $style = TcpdfStyles::get('default');
+//
+//    $style($title, $this);
   }
 
   /**

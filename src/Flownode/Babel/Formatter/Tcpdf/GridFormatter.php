@@ -10,6 +10,10 @@
  */
 namespace Flownode\Babel\Formatter\Tcpdf;
 
+use
+  Flownode\Babel\Decorator\Decorator
+;
+
 /**
  *
  * @author Laurent CALLAREC <l.callarec@gmail.com>
@@ -21,6 +25,12 @@ class GridFormatter
    * @var Flownode\Babel\Formatter\Html\Formatter;
    */
   protected $formatter;
+
+  /**
+   *
+   * @var Flownode\Babel\Decorator\Decorator;
+   */
+  protected $decorator;
 
   protected $rowDecorator = null;
 
@@ -47,6 +57,7 @@ class GridFormatter
   public function __construct(Formatter $formatter, $columns, $datas)
   {
     $this->formatter = $formatter;
+    $this->decorator = $formatter->getDecorator();
     $this->columns = $columns;
     $this->datas   = $datas;
   }
@@ -83,8 +94,9 @@ class GridFormatter
 
     foreach($this->datas as $r => $row)
     {
-      if(null !== $decorator = $this->rowDecorator)
+      if(null !== $this->rowDecorator)
       {
+        $decorator = $this->decorator->get($this->rowDecorator);
         $decorator($row, $r, $this->formatter);
       }
 
@@ -110,9 +122,9 @@ class GridFormatter
 
   /**
    *
-   * @param Closure $decorator
+   * @param string | array $decorator
    */
-  public function setRowDecorator(\Closure $decorator = null)
+  public function setRowDecorator($decorator = null)
   {
     $this->rowDecorator = $decorator;
   }

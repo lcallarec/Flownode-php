@@ -28,9 +28,11 @@ class Paragraph extends Element
    *
    * @param string $text
    */
-  public function __construct($text = '')
+  public function __construct($text = '', $rules = null)
   {
     $this->text = $text;
+
+    $this->rules = $rules;
   }
 
   /**
@@ -39,7 +41,7 @@ class Paragraph extends Element
    */
   public function format()
   {
-    $this->formatter->addParagraph($this->text, \Flownode\Babel\Styles\HtmlStyles::get('default'));
+    $this->formatter->addParagraph($this->text, $this->rules);
 
     return $this;
   }
