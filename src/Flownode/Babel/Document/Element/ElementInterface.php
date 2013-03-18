@@ -33,5 +33,6 @@ interface ElementInterface
    * @return self
    */
   public function setFormatter(FormatterInterface $formatter);
+
 }
 

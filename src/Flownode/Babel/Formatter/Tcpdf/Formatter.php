@@ -7,45 +7,84 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Flownode\Babel\Formatter\Html;
+namespace Flownode\Babel\Formatter\Tcpdf;
 
 use
-  Flownode\Babel\Formatter\FormatterInterface,
-  Flownode\Babel\Styles\HtmlStyles;
+  Flownode\Babel\Formatter\Formatter as AbstractFormatter,
+  Flownode\Babel\Styles\TcpdfStyles;
 ;
 
 /**
- * HTML Formatter
+ * PDF Formatter using TCPDF
  *
  * @author Laurent CALLAREC <lcallarec@gmail.com>
  */
-class Formatter implements FormatterInterface
+class Formatter extends AbstractFormatter
 {
-
-  /**
-   * Formatter content
-   *
-   * @var string
-   */
-  protected $content = '';
 
   public function __construct()
   {
-     HtmlStyles::set('default', function($value, $formatter) {
+    parent::__construct();
+    
+    $this->content = new \TCPDF('P', \PDF_UNIT, 'A4');
 
-       return array('style' => 'color: red;');
+    $this->content->SetDefaultMonospacedFont(\PDF_FONT_MONOSPACED);
+
+    $this->content->SetMargins(PDF_MARGIN_LEFT, 15, PDF_MARGIN_RIGHT);
+    $this->content->SetHeaderMargin(5);
+    $this->content->SetFooterMargin(10);
+
+    $this->content->setPrintHeader(false);
+    $this->content->setPrintFooter(false);
+
+    $this->content->setFontSubsetting(false);
+
+    //set auto page breaks
+    $this->content->SetAutoPageBreak(TRUE, 15);
+
+    $this->content->SetFont('dejavusans', '', 10);
+
+    $this->content->AddPage();
+
+    TcpdfStyles::set('default', function($value, $formatter) {
+
+      $formatter->getContent()->SetTextColorArray(array(0, 0, 0));
+
+      $formatter->getContent()->SetFontSize(11);
+
+    });
+
+
+     TcpdfStyles::set('title.1', function($value, $formatter) {
+
+        $formatter->getContent()->SetTextColorArray(array(33, 64, 95));
+        $formatter->getContent()->SetFontSize(18);
+
+        return array('B' => array('width' => 0.2, 'color' => array(33, 64, 95)));
 
      });
+
+     TcpdfStyles::set('title.2', function($value, $formatter) {
+
+        $formatter->getContent()->SetTextColorArray(array(33, 64, 95));
+        $formatter->getContent()->SetFontSize(16);
+
+        return array('B' => array('width' => 0.2, 'color' => array(33, 64, 95)));
+
+     });
+
+
+
+
   }
 
   /**
    * Add a paragraph
    * @param string $content
    */
-  public function addParagraph($content = '', $style)
+  public function addParagraph($content = '', $style = null)
   {
-    $attributes = $this->formatStyle($style($content, $this));
-    $this->content .= '<p '.$attributes.'>'.$content.'</p>';
+    $this->content->Cell(50, 10, $content, 0, 1);
   }
 
   /**
@@ -54,52 +93,20 @@ class Formatter implements FormatterInterface
    * @param type $level
    * @param type $suffix
    */
-  public function addTitle($title = '', $level = 1, $suffix = '. ')
+  public function addTitle($title = '', $level = 0)
   {
-    $this->content .= '<h'.$level.'>'.$suffix.$title.'</h'.$level.'>';
+    $style = TcpdfStyles::get('title.'.$level);
+
+    $borders = $style($title, $this);
+
+    $this->content->Cell(0, 10, $this->titleManager->getTitlePrefix($level).$title, $borders, 1);
+
+    $this->content->Ln(5);
+
+    $style = TcpdfStyles::get('default');
+
+    $style($title, $this);
   }
-
-  /**
-   *
-   * @param type $value
-   */
-  public function addCell($value)
-  {
-    $this->content .= '<td>'.$value.'</td>';
-  }
-
-  /**
-   *
-   * @param array $headers
-   * @param array $body
-   */
-  public function addGrid($headers, $body)
-  {
-    $gridParts = array_merge($headers, $body);
-    $contents = '';
-    foreach($gridParts as $parts)
-    {
-      $contents .= '<tr>';
-      foreach($parts as $content => $style)
-      {
-        if($style instanceof \Closure)
-        {
-          $attributes = $this->formatStyle($style($content, $this));
-        }
-        else
-        {
-          $attributes = '';
-        }
-
-        $contents .= '<td '.$attributes.'>'.$content.'</td>';
-
-      }
-      $contents .= '</tr>';
-    }
-
-    $this->content .= '<table>'.$contents.'</table>';
-  }
-
 
   /**
    *
@@ -108,21 +115,6 @@ class Formatter implements FormatterInterface
   public function getContent()
   {
     return $this->content;
-  }
-
-  /**
-   * Transform an array of attributes into a string
-   * @param array $styles
-   * @return string
-   */
-  protected function formatStyle($styles)
-  {
-    $sStyles = '';
-    foreach($styles as $attribute => $value)
-    {
-      $sStyles .= $attribute.'="'.$value.'" ';
-    }
-    return $sStyles;
   }
 
 }

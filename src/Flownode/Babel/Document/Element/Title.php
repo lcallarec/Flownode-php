@@ -28,9 +28,11 @@ class Title extends Element
    *
    * @param string $title
    */
-  public function __construct($title = '')
+  public function __construct($title = '', $level = 0)
   {
     $this->title = $title;
+
+    $this->level = $level;
   }
 
   /**
@@ -39,7 +41,7 @@ class Title extends Element
    */
   public function format()
   {
-    $this->formatter->addTitle($this->title);
+    $this->formatter->addTitle($this->title, $this->level);
 
     return $this;
   }

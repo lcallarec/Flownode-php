@@ -10,7 +10,8 @@
 namespace Flownode\Babel\Document\Element;
 
 use
-  Flownode\Babel\Formatter\FormatterInterface
+  Flownode\Babel\Formatter\FormatterInterface,
+  Flownode\Babel\Document\Document
 ;
 /**
  * Abstract class inherited by all Elements
@@ -28,9 +29,16 @@ abstract class Element extends \ArrayObject implements ElementInterface
   protected $formatter = null;
 
   /**
+   * Parent document
    *
-   * @param \Flownode\Babel\Formatter\FormatterInterface $formatter
-   * @return \Flownode\Babel\Document\Element\Element
+   * @var  Document
+   */
+  protected $document = null;
+
+  /**
+   *
+   * @param FormatterInterface $formatter
+   * @return self
    */
   public function setFormatter(FormatterInterface $formatter)
   {

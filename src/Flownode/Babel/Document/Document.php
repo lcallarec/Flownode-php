@@ -35,7 +35,6 @@ class Document extends \ArrayObject implements ElementInterface
   public function add(ElementInterface $component)
   {
     $this->append($component);
-
   }
 
 
@@ -67,5 +66,6 @@ class Document extends \ArrayObject implements ElementInterface
   {
     return $this->formatter->getContent();
   }
+
 }
 

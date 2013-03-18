@@ -10,7 +10,8 @@
 namespace Flownode\Babel\Formatter\Html;
 
 use
-  Flownode\Babel\Formatter\FormatterInterface,
+  Flownode\Babel\Formatter\Formatter as AbstractFormatter,
+  Flownode\Babel\Document\Grid\Formatter\HtmlFormatter,
   Flownode\Babel\Styles\HtmlStyles;
 ;
 
@@ -19,7 +20,7 @@ use
  *
  * @author Laurent CALLAREC <lcallarec@gmail.com>
  */
-class Formatter implements FormatterInterface
+class Formatter extends AbstractFormatter
 {
 
   /**
@@ -31,9 +32,29 @@ class Formatter implements FormatterInterface
 
   public function __construct()
   {
-     HtmlStyles::set('default', function($value, $formatter) {
+    parent::__construct();
+    
+    HtmlStyles::set('default', function($value, $formatter) {
 
        return array('style' => 'color: red;');
+
+     });
+
+     HtmlStyles::set('title.0', function($value, $formatter) {
+
+       return array('style' => 'color: red;');
+
+     });
+
+     HtmlStyles::set('title.1', function($value, $formatter) {
+
+       return array('style' => 'font-size: 1.5em; border-bottom: 1px solid grey;');
+
+     });
+
+     HtmlStyles::set('title.2', function($value, $formatter) {
+
+       return array('style' => 'font-size: 1.2em; border-bottom: 1px solid grey;');
 
      });
   }
@@ -62,9 +83,13 @@ class Formatter implements FormatterInterface
    * @param type $level
    * @param type $suffix
    */
-  public function addTitle($title = '', $level = 1, $suffix = '. ')
+  public function addTitle($title = '', $level = 0)
   {
-    $this->content .= '<h'.$level.'>'.$suffix.$title.'</h'.$level.'>';
+    $style = HtmlStyles::get('title.'.$level);
+
+    $attributes = $this->formatStyle($style($title, $this));
+
+    $this->content .= '<h'.$level.' '.$attributes.'>'.$this->getTitlePrefix($level).$title.'</h'.$level.'>';
   }
 
   /**
@@ -72,70 +97,25 @@ class Formatter implements FormatterInterface
    * @param array $headers
    * @param array $body
    */
-  public function addGrid($columns, $datas)
+  public function addGrid($columns, $datas, $rowDecorator = null)
   {
+
+    $grid = new HtmlFormatter($this);
+    $grid->setRowDecorator($rowDecorator);
 
     $this->content .= '<table>';
 
-    echo '<pre>';
-    print_r($columns);
-    print_r($datas);
-    echo '</pre>';
+    $grid->addHeaders($columns);
 
-    $this->content .= '<thead><tr>';
-    foreach($columns as $column)
-    {
-      $this->content .='<th>'.$column->getName().'</th>';
-    }
-    $this->content .= '</thead></tr>';
-
-    foreach($datas as $row)
-    {
-      $this->content .= '<tr>';
-      foreach($columns as $column)
-      {
-        $value = $column->getValue($row);
-        $columnDecorator = $column->getColumnDecorator();
-        if($columnDecorator instanceof \Closure)
-        {
-          $attributes = $this->formatStyle($columnDecorator($row, $column, $this));
-        }
-        else
-        {
-          $attributes = '';
-        }
-
-        $this->content .='<td '.$attributes.'>'.$value.'</td>';
-      }
-
-      $this->content .= '</tr>';
-    }
-
-
-
-//    foreach($columns as $column)
-//    {
-//      $item = new $column[1]($column[0]);
-//      $item->setFormatter($this);
-//      if($column[2] instanceof \Closure)
-//      {
-//        $attributes = $this->formatStyle($column[2]($column[0], $this));
-//      }
-//      else
-//      {
-//        $attributes = '';
-//      }
-//
-//      $this->content .= $this->addCell($item, $attributes);
-//
-//    }
+    $grid->addRows($columns, $datas);
 
     $this->content .= '</table>';
   }
 
-  protected function addCell($item, $attributes)
+
+  public function append($content = '')
   {
-     $this->content .='<td '.$attributes.'>'.$item->render().'</td>';
+    $this->content .= $content;
   }
 
   /**
@@ -152,7 +132,7 @@ class Formatter implements FormatterInterface
    * @param array $styles
    * @return string
    */
-  protected function formatStyle($styles)
+  public function formatStyle($styles)
   {
     $sStyles = '';
     foreach($styles as $attribute => $value)
