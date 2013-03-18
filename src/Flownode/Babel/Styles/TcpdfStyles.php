@@ -13,7 +13,7 @@ namespace Flownode\Babel\Styles;
  *
  * @author Laurent CALLAREC <lcallarec@gmail.com>
  */
-class HtmlStyles extends Styles
+class TcpdfStyles extends Styles
 {
 
 }
