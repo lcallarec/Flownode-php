@@ -11,7 +11,7 @@ namespace Flownode\Babel\Document\Grid;
 
 use
   Flownode\Babel\Document\Element\Element,
-  Flownode\Babel\Document\Grid\Cell
+  Flownode\Babel\Document\Grid\Column
 ;
 /**
  *
@@ -21,17 +21,7 @@ class Grid extends Element
 {
   protected $formatter = null;
 
-  /**
-   *
-   * @var array
-   */
-  protected $headers;
-
-  /**
-   *
-   * @var array
-   */
-  protected $body = array();
+  protected $columns = array();
 
   /**
    * Laucnh format process
@@ -39,7 +29,7 @@ class Grid extends Element
    */
   public function format()
   {
-    $this->formatter->addGrid($this->headers, $this->body);
+    $this->formatter->addGrid($this->columns, $this->getArrayCopy());
 
     return $this;
   }
@@ -49,24 +39,10 @@ class Grid extends Element
    * @param array $headers
    * @return \Flownode\Babel\Document\Grid\Grid
    */
-  public function setHeaders(array $headers)
+  public function addColumn($name, $columnId, $dataKey, $valueDecorator = null, $columnDecorator = null, $element = null)
   {
-    $this->headers = array($headers);
-
-    return $this;
+    return $this->columns[$columnId] = new Column($name, $dataKey, $valueDecorator, $columnDecorator, $element);
   }
 
-  /**
-   * Add body parts, sevral are possible for a grid
-   *
-   * @param array $body
-   * @return \Flownode\Babel\Document\Grid\Grid
-   */
-  public function addBodyPart(array $body)
-  {
-    $this->body[] = $body;
-
-    return $this;
-  }
 }
 

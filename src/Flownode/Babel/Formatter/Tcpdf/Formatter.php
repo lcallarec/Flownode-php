@@ -42,17 +42,9 @@ class Formatter implements FormatterInterface
    * Add a paragraph
    * @param string $content
    */
-  public function addParagraph($content = '', $style = null)
+  public function addParagraph($content = '', $style)
   {
-    if($style)
-    {
-      $attributes = $this->formatStyle($style($content, $this));
-    }
-    else
-    {
-      $attributes = '';
-    }
-
+    $attributes = $this->formatStyle($style($content, $this));
     $this->content .= '<p '.$attributes.'>'.$content.'</p>';
   }
 
@@ -69,74 +61,45 @@ class Formatter implements FormatterInterface
 
   /**
    *
+   * @param type $value
+   */
+  public function addCell($value)
+  {
+    $this->content .= '<td>'.$value.'</td>';
+  }
+
+  /**
+   *
    * @param array $headers
    * @param array $body
    */
-  public function addGrid($columns, $datas)
+  public function addGrid($headers, $body)
   {
-
-    $this->content .= '<table>';
-
-    echo '<pre>';
-    print_r($columns);
-    print_r($datas);
-    echo '</pre>';
-
-    $this->content .= '<thead><tr>';
-    foreach($columns as $column)
+    $gridParts = array_merge($headers, $body);
+    $contents = '';
+    foreach($gridParts as $parts)
     {
-      $this->content .='<th>'.$column->getName().'</th>';
-    }
-    $this->content .= '</thead></tr>';
-
-    foreach($datas as $row)
-    {
-      $this->content .= '<tr>';
-      foreach($columns as $column)
+      $contents .= '<tr>';
+      foreach($parts as $content => $style)
       {
-        $value = $column->getValue($row);
-        $columnDecorator = $column->getColumnDecorator();
-        if($columnDecorator instanceof \Closure)
+        if($style instanceof \Closure)
         {
-          $attributes = $this->formatStyle($columnDecorator($row, $column, $this));
+          $attributes = $this->formatStyle($style($content, $this));
         }
         else
         {
           $attributes = '';
         }
 
-        $this->content .='<td '.$attributes.'>'.$value.'</td>';
-      }
+        $contents .= '<td '.$attributes.'>'.$content.'</td>';
 
-      $this->content .= '</tr>';
+      }
+      $contents .= '</tr>';
     }
 
-
-
-//    foreach($columns as $column)
-//    {
-//      $item = new $column[1]($column[0]);
-//      $item->setFormatter($this);
-//      if($column[2] instanceof \Closure)
-//      {
-//        $attributes = $this->formatStyle($column[2]($column[0], $this));
-//      }
-//      else
-//      {
-//        $attributes = '';
-//      }
-//
-//      $this->content .= $this->addCell($item, $attributes);
-//
-//    }
-
-    $this->content .= '</table>';
+    $this->content .= '<table>'.$contents.'</table>';
   }
 
-  protected function addCell($item, $attributes)
-  {
-     $this->content .='<td '.$attributes.'>'.$item->render().'</td>';
-  }
 
   /**
    *
