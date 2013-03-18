@@ -24,25 +24,27 @@ class GridFormatter
 
   protected $rowDecorator = null;
 
-  public function __construct(Formatter $formatter)
+  public function __construct(Formatter $formatter, $columns, $datas)
   {
     $this->formatter = $formatter;
+    $this->columns = $columns;
+    $this->datas   = $datas;
   }
 
-  public function addHeaders($columns = array())
+  public function addHeaders()
   {
     $this->formatter->append('<thead><tr>');
-    foreach($columns as $column)
+    foreach($this->columns as $column)
     {
       $this->formatter->append('<th>'.$column->getName().'</th>');
     }
     $this->formatter->append('</thead></tr>');
   }
 
-  public function addRows($columns, $datas)
+  public function addRows()
   {
 
-    foreach($datas as $i => $row)
+    foreach($this->datas as $i => $row)
     {
       if(null !== $decorator = $this->rowDecorator)
       {

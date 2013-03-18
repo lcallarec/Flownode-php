@@ -27,7 +27,7 @@ class Grid extends Element
 
   /**
    * Laucnh format process
-   * @return \Flownode\Babel\Document\Element\Paragraph
+   * @return \Flownode\Babel\Document\Element\Grid
    */
   public function format()
   {

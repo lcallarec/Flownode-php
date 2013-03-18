@@ -52,6 +52,7 @@ class Formatter extends AbstractFormatter
       $formatter->getContent()->SetTextColorArray(array(0, 0, 0));
 
       $formatter->getContent()->SetFontSize(11);
+      $formatter->getContent()->SetFillColorArray(array(255, 255, 255));
 
     });
 
@@ -127,7 +128,7 @@ class Formatter extends AbstractFormatter
   {
 
     $grid = new GridFormatter($this, $columns, $datas);
-
+    $grid->setRowDecorator($rowDecorator);
     $grid->addHeaders();
 
     $grid->addRows();

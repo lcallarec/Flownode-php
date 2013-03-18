@@ -38,6 +38,12 @@ class GridFormatter
   protected $width  = 0;
   protected $height = 0;
 
+  /**
+   *
+   * @param \Flownode\Babel\Formatter\Tcpdf\Formatter $formatter
+   * @param array $columns
+   * @param array $datas
+   */
   public function __construct(Formatter $formatter, $columns, $datas)
   {
     $this->formatter = $formatter;
@@ -45,6 +51,10 @@ class GridFormatter
     $this->datas   = $datas;
   }
 
+  /**
+   * Build headers
+   * @return void
+   */
   public function addHeaders()
   {
     $formatter = $this->formatter->getContent();
@@ -61,6 +71,10 @@ class GridFormatter
 
   }
 
+  /**
+   * Build rows
+   * @return void
+   */
   public function addRows()
   {
     $formatter = $this->formatter->getContent();
@@ -71,13 +85,8 @@ class GridFormatter
     {
       if(null !== $decorator = $this->rowDecorator)
       {
-        //$attributes = $this->formatter->formatStyle($decorator($row, $i, $this));
+        $decorator($row, $r, $this->formatter);
       }
-      else
-      {
-        //$attributes = '';
-      }
-
 
       foreach($this->columns as $c => $column)
       {
@@ -92,7 +101,7 @@ class GridFormatter
 
         }
 
-        $formatter->MultiCell($this->columnWidth[$c], $this->rowHeight[$r], $value, 0, '', false, 0);
+        $formatter->MultiCell($this->columnWidth[$c], $this->rowHeight[$r], $value, 0, '', true, 0);
 
       }
 
@@ -103,7 +112,11 @@ class GridFormatter
     }
   }
 
-  public function setRowDecorator($decorator = null)
+  /**
+   *
+   * @param Closure $decorator
+   */
+  public function setRowDecorator(\Closure $decorator = null)
   {
     $this->rowDecorator = $decorator;
   }
@@ -115,7 +128,7 @@ class GridFormatter
    *
    * @return void
    */
-  private function computeOptimalSizes($maxColumnWidth = 200)
+  private function computeOptimalSizes()
   {
     $formatter = $this->formatter->getContent();
     $innerPaddings = $formatter->getCellPaddings();
@@ -154,7 +167,6 @@ class GridFormatter
     }
 
     $this->width  = array_sum($this->columnWidth);
-
     $this->height = array_sum($this->rowHeight);
 
   }

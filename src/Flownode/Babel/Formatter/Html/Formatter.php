@@ -106,7 +106,6 @@ class Formatter extends AbstractFormatter
     $this->content .= '<table>';
 
     $grid->addHeaders();
-
     $grid->addRows();
 
     $this->content .= '</table>';
