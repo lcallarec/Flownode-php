@@ -5,16 +5,17 @@ Flownode
 
 ## What is Flownode
 
-Flownode is a libraary made of 3 pakckages : Babel, UI and Switchboard.
+Flownode is a library made of 3 packages : Babel, UI and Switchboard.
 
 ###1. Flownode.Babel
 
-Babel primary goal is generating multi-format documents, likes reports. With the same code, developper will be able to output in HTML or PDF format (but all other formats could be supported...).
-Some PHP librairies offer the ability to parse an HTML document for outputing in PDF format,like TCPDF ; while those solutions are very powerful to build complex PDF documents, they are definitively very slow. 
+Babel primary goal is to generatr multi-format documents, like "dynamic reports" for exemple. With the same code, developper will be able to output in HTML or PDF format (but all other formats could be supported...).
 
-Babel will be kept fast, very simple to use in most cases. If you want to build complex document, you could create your own formatters and components, since Babel is quite simple to enhance.
+Some PHP libraries offer the ability to parse an HTML document for outputing in PDF format, like TCPDF; those solutions are very powerful to build complex PDF documents, but they are definitively very slow. 
 
-Babel documents are able to skin the most parts of your data thanks to decorators, wich are noting more than closures.
+Babel will be kept as fast as possible, very simple to use and esay to extend to fit your needs.
+
+Babel documents are easily skinnable thanks to decorators, wich are noting more than closures for now.
 
 Exemple of code to produce a PDF document :
 
