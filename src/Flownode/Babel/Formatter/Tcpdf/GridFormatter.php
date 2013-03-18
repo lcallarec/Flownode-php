@@ -94,11 +94,7 @@ class GridFormatter
         $columnDecorator = $column->getColumnDecorator();
         if($columnDecorator instanceof \Closure)
         {
-
-        }
-        else
-        {
-
+          $columnDecorator($row, $column, $this->formatter);
         }
 
         $formatter->MultiCell($this->columnWidth[$c], $this->rowHeight[$r], $value, 0, '', true, 0);
