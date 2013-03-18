@@ -29,13 +29,6 @@ abstract class Element extends \ArrayObject implements ElementInterface
   protected $formatter = null;
 
   /**
-   * Parent document
-   *
-   * @var  Document
-   */
-  protected $document = null;
-
-  /**
    *
    * @param FormatterInterface $formatter
    * @return self

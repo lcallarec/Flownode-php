@@ -33,7 +33,7 @@ class Formatter extends AbstractFormatter
   public function __construct()
   {
     parent::__construct();
-    
+
     HtmlStyles::set('default', function($value, $formatter) {
 
        return array('style' => 'color: red;');
@@ -100,14 +100,14 @@ class Formatter extends AbstractFormatter
   public function addGrid($columns, $datas, $rowDecorator = null)
   {
 
-    $grid = new HtmlFormatter($this);
+    $grid = new HtmlFormatter($this, $columns, $datas);
     $grid->setRowDecorator($rowDecorator);
 
     $this->content .= '<table>';
 
-    $grid->addHeaders($columns);
+    $grid->addHeaders();
 
-    $grid->addRows($columns, $datas);
+    $grid->addRows();
 
     $this->content .= '</table>';
   }

@@ -11,6 +11,7 @@ namespace Flownode\Babel\Formatter\Tcpdf;
 
 use
   Flownode\Babel\Formatter\Formatter as AbstractFormatter,
+  Flownode\Babel\Formatter\Tcpdf\GridFormatter,
   Flownode\Babel\Styles\TcpdfStyles;
 ;
 
@@ -25,7 +26,7 @@ class Formatter extends AbstractFormatter
   public function __construct()
   {
     parent::__construct();
-    
+
     $this->content = new \TCPDF('P', \PDF_UNIT, 'A4');
 
     $this->content->SetDefaultMonospacedFont(\PDF_FONT_MONOSPACED);
@@ -116,6 +117,23 @@ class Formatter extends AbstractFormatter
   {
     return $this->content;
   }
+
+  /**
+   *
+   * @param array $headers
+   * @param array $body
+   */
+  public function addGrid($columns, $datas, $rowDecorator = null)
+  {
+
+    $grid = new GridFormatter($this, $columns, $datas);
+
+    $grid->addHeaders();
+
+    $grid->addRows();
+
+  }
+
 
 }
 
