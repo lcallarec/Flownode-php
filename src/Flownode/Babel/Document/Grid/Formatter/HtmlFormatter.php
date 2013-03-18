@@ -26,6 +26,8 @@ class HtmlFormatter
    */
   protected $formatter;
 
+  protected $rowDecorator = null;
+
   public function __construct(Formatter $formatter)
   {
     $this->formatter = $formatter;
@@ -43,9 +45,19 @@ class HtmlFormatter
 
   public function addRows($columns, $datas)
   {
-    foreach($datas as $row)
+
+    foreach($datas as $i => $row)
     {
-      $this->formatter->append('<tr>');
+      if(null !== $decorator = $this->rowDecorator)
+      {
+        $attributes = $this->formatter->formatStyle($decorator($row, $i, $this));
+      }
+      else
+      {
+        $attributes = '';
+      }
+
+      $this->formatter->append('<tr '.$attributes.'>');
       foreach($columns as $column)
       {
         $value = $column->getValue($row);
@@ -64,6 +76,11 @@ class HtmlFormatter
 
       $this->formatter->append('</tr>');
     }
+  }
+
+  public function setRowDecorator($decorator = null)
+  {
+    $this->rowDecorator = $decorator;
   }
 
 }

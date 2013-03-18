@@ -23,13 +23,15 @@ class Grid extends Element
 
   protected $columns = array();
 
+  protected $rowDecorator = null;
+
   /**
    * Laucnh format process
    * @return \Flownode\Babel\Document\Element\Paragraph
    */
   public function format()
   {
-    $this->formatter->addGrid($this->columns, $this->getArrayCopy());
+    $this->formatter->addGrid($this->columns, $this->getArrayCopy(), $this->rowDecorator);
 
     return $this;
   }
@@ -42,6 +44,11 @@ class Grid extends Element
   public function addColumn($name, $columnId, $dataKey, $valueDecorator = null, $columnDecorator = null, $element = null)
   {
     return $this->columns[$columnId] = new Column($name, $dataKey, $valueDecorator, $columnDecorator, $element);
+  }
+
+  public function setRowDecorator($decorator = null)
+  {
+    $this->rowDecorator = $decorator;
   }
 
 }
