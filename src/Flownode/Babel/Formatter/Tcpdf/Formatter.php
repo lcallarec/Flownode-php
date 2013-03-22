@@ -29,8 +29,6 @@ class Formatter extends AbstractFormatter
 
     $this->content = new \TCPDF('P', \PDF_UNIT, 'A4');
 
-    $this->decorator->get('default');
-
     $this->content->SetDefaultMonospacedFont(\PDF_FONT_MONOSPACED);
 
     $this->content->SetMargins(PDF_MARGIN_LEFT, 15, PDF_MARGIN_RIGHT);
@@ -56,7 +54,9 @@ class Formatter extends AbstractFormatter
    */
   public function addParagraph($content = '', $rules = null)
   {
+    $this->executeRules($rules, $content, $this);
     $this->content->Cell(50, 10, $content, 0, 1);
+    $this->executeRules('default', $content, $this);
   }
 
   /**
@@ -68,17 +68,13 @@ class Formatter extends AbstractFormatter
   public function addTitle($title = '', $level = 0, $rules = null)
   {
     $borders = array();
-
-    $decorator = $this->decorator->get('header.'.$level);
-    $decorator($title, $this, $borders);
+    $this->executeRules('header.'.$level, $title, $this, $borders);
 
     $this->content->Cell(0, 10, $this->titleManager->getTitlePrefix($level).$title, $borders, 1);
 
     $this->content->Ln(5);
 
-    $style = $this->decorator->get('default');
-
-    $style($title, $this);
+    $this->executeRules('default', $title, $this);
   }
 
   /**

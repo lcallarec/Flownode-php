@@ -41,7 +41,7 @@ abstract class Formatter implements FormatterInterface
   protected $content;
 
   protected $fontFamily = 'dejavusans';
-  protected $fontSize   = '6';
+  protected $fontSize   = '10';
 
   /**
    *
@@ -85,6 +85,16 @@ abstract class Formatter implements FormatterInterface
   public function getFontFamily()
   {
     return $this->fontFamily;
+  }
+
+  public function executeRules($rules, &$arg1, &$arg2, &$arg3 = null, &$arg4 = null)
+  {
+    $closures = $this->decorator->get($rules);
+
+    foreach($closures as $name => $closure)
+    {
+      $closure($arg1, $arg2, $arg3, $arg4);
+    }
   }
 
 }
