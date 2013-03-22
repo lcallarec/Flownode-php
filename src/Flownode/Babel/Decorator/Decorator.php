@@ -34,18 +34,29 @@ abstract class Decorator
   }
 
   /**
-   * Get the rule
+   * Get one or sevral rules
    *
-   * @param string $rule
-   * @return \Closure
+   * @param string | array $rules
+   * @return array         Array of Closures
    */
-  function get($rule)
+  function get($rules)
   {
-    if(null !== $rule)
+    if(null !== $rules)
     {
-      return $this->rules[$rule];
+      if(is_array($rules))
+      {
+        $_rules = array();
+        foreach($rules as $name => $rule)
+        {
+          $_rules[$name] = $this->rules[$rule];
+        }
+
+        return $_rules;
+      }
+
+      return array($rules => $this->rules[$rules]);
     }
 
-    return $this->rules['default'];
+    return array($rules => $this->rules['default']);
   }
 }
