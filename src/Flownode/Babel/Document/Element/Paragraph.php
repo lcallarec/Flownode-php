@@ -28,7 +28,7 @@ class Paragraph extends Element
    *
    * @param string $text
    */
-  public function __construct($text = '', $rules = null)
+  public function __construct($text = '', $rules = 'default')
   {
     $this->text = $text;
 

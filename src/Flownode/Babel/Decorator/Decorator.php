@@ -21,25 +21,31 @@ abstract class Decorator
    * value : Closure  function to apply
    * @var array
    */
-  protected $closures = array();
+  protected $rules = array();
 
-  public function __construct()
+  /**
+   *
+   * @param string $rule
+   * @param \Closure $decorator
+   */
+  public function set($name, \Closure $rule)
   {
-
+    $this->rules[$name] = $rule;
   }
 
-  public function set($name, \Closure $decorator)
+  /**
+   * Get the rule
+   *
+   * @param string $rule
+   * @return \Closure
+   */
+  function get($rule)
   {
-    $this->closures[$name] = $decorator;
-  }
-
-  function get($name = null)
-  {
-    if(null !== $name)
+    if(null !== $rule)
     {
-      return $this->closures[$name];
+      return $this->rules[$rule];
     }
 
-    return null;
+    return $this->rules['default'];
   }
 }

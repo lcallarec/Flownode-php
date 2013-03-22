@@ -48,6 +48,8 @@ class GridFormatter
   protected $width  = 0;
   protected $height = 0;
 
+
+
   /**
    *
    * @param \Flownode\Babel\Formatter\Tcpdf\Formatter $formatter
@@ -71,6 +73,7 @@ class GridFormatter
     $formatter = $this->formatter->getContent();
 
     $this->computeOptimalSizes();
+
     $this->padding = (205 - $this->width) / 2;
     $formatter->setX($this->padding);
     foreach($this->columns as $i => $column)
@@ -145,10 +148,8 @@ class GridFormatter
 
     foreach($this->columns as $i => $column)
     {
-      $this->columnWidth[$i] = ($formatter->GetStringWidth($column->getName())+ $pad) * 1.2; //(mb_strlen($column['label']) * $this->sizeRatio) + $pad;
+      $this->columnWidth[$i] = ($formatter->GetStringWidth($column->getName())+ $pad); //(mb_strlen($column['label']) * $this->sizeRatio) + $pad;
     }
-
-    $defaultStringHeight = $formatter->getStringHeight(100, chr(32));
 
     foreach($this->datas as $r => $row)
     {
@@ -158,14 +159,15 @@ class GridFormatter
       //For each cells of that row
       foreach($row as $c => $cell)
       {
+
         if(isset($this->columns[$c]))
         {
           //Get logical string width
-          $sWidth  = ($formatter->getStringWidth(trim($cell), 'courier', '', 6) + $pad) * 1.2;
+          $sWidth  = ($formatter->getStringWidth($cell) + $pad);
 
-          $this->columnWidth[$c] = max($sWidth, $this->columnWidth[$c]);
+          $this->columnWidth[$c] = min(max($sWidth, $this->columnWidth[$c]), 30);
 
-          $sHeight = $defaultStringHeight * $formatter->getNumLines(trim($cell), $this->columnWidth[$c] * 1.2);
+          $sHeight = $formatter->getStringHeight($this->columnWidth[$c], $cell);//$defaultStringHeight * $formatter->getNumLines(trim($cell), $this->columnWidth[$c] * 1.2);
 
           //Compute cell Height : not very very exact
           $this->rowHeight[$r] = max($this->rowHeight[$r], $sHeight);

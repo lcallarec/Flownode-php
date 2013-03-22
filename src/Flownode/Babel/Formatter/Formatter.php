@@ -40,6 +40,9 @@ abstract class Formatter implements FormatterInterface
    */
   protected $content;
 
+  protected $fontFamily = 'dejavusans';
+  protected $fontSize   = '6';
+
   /**
    *
    * @param Decorator $decorator
@@ -58,6 +61,30 @@ abstract class Formatter implements FormatterInterface
   public function getDecorator()
   {
     return $this->decorator;
+  }
+
+  public function setFontSize($fontSize)
+  {
+    $this->fontSize = $fontSize;
+
+    return $this;
+  }
+
+  public function setFontFamily($fontFamily)
+  {
+    $this->fontFamily = $fontFamily;
+
+    return $this;
+  }
+
+  public function getFontSize()
+  {
+    return $this->fontSize;
+  }
+
+  public function getFontFamily()
+  {
+    return $this->fontFamily;
   }
 
 }

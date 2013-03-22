@@ -28,7 +28,7 @@ class Title extends Element
    *
    * @param string $title
    */
-  public function __construct($title = '', $level = 0, $rules = null)
+  public function __construct($title = '', $level = 0, $rules = 'default')
   {
     $this->title = $title;
     $this->level = $level;

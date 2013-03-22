@@ -46,6 +46,10 @@ class Grid extends Element
     return $this->columns[$columnId] = new Column($name, $dataKey, $valueDecorator, $columnDecorator, $element);
   }
 
+  /**
+   * 
+   * @param string $decorator
+   */
   public function setRowDecorator($decorator = null)
   {
     $this->rowDecorator = $decorator;
