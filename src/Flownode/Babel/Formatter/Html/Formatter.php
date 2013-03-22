@@ -41,14 +41,12 @@ class Formatter extends AbstractFormatter
    */
   public function addParagraph($content = '', $rules = null)
   {
+    $attributes = '';
     if($rules)
     {
-      $decorator = $this->decorator->get($rules);
-      $attributes = $this->formatStyle($decorator($content, $this));
-    }
-    else
-    {
-      $attributes = '';
+      $attributes = array();
+      $this->executeRules($rules, $content, $attributes);
+      $attributes = $this->formatStyle($attributes);
     }
 
     $this->content .= '<p '.$attributes.'>'.$content.'</p>';
@@ -62,14 +60,15 @@ class Formatter extends AbstractFormatter
    */
   public function addTitle($title = '', $level = 0, $rules = null)
   {
-    $attributes = array();
-    if(null !== $rules)
+    $attributes = '';
+    if($rules)
     {
-      $decorator = $this->decorator->get($rules);
-      $attributes = $this->formatStyle($decorator($content, $this));
+      $attributes = array();
+      $this->executeRules($rules, $title, $attributes);
+      $attributes = $this->formatStyle($attributes);
     }
 
-    $this->content .= '<h'.$level.' '.$this->formatStyle($attributes).'>'.$this->titleManager->getTitlePrefix($level).$title.'</h'.$level.'>';
+    $this->content .= '<h'.$level.' '.$attributes.'>'.$this->titleManager->getTitlePrefix($level).$title.'</h'.$level.'>';
   }
 
   /**

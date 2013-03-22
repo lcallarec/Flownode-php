@@ -87,13 +87,13 @@ abstract class Formatter implements FormatterInterface
     return $this->fontFamily;
   }
 
-  public function executeRules($rules, &$arg1, &$arg2, &$arg3 = null, &$arg4 = null)
+  public function executeRules($rules, &$arg1 = null, &$arg2 = null, &$arg3 = null, &$arg4 = null)
   {
     $closures = $this->decorator->get($rules);
 
     foreach($closures as $name => $closure)
     {
-      $closure($arg1, $arg2, $arg3, $arg4);
+      $closure($this, $arg1, $arg2, $arg3, $arg4);
     }
   }
 

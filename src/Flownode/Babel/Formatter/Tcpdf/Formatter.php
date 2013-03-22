@@ -54,9 +54,9 @@ class Formatter extends AbstractFormatter
    */
   public function addParagraph($content = '', $rules = null)
   {
-    $this->executeRules($rules, $content, $this);
+    $this->executeRules($rules, $content);
     $this->content->Cell(50, 10, $content, 0, 1);
-    $this->executeRules('default', $content, $this);
+    $this->executeRules('default');
   }
 
   /**
@@ -68,13 +68,13 @@ class Formatter extends AbstractFormatter
   public function addTitle($title = '', $level = 0, $rules = null)
   {
     $borders = array();
-    $this->executeRules('header.'.$level, $title, $this, $borders);
+    $this->executeRules('header.'.$level, $title, $borders);
 
     $this->content->Cell(0, 10, $this->titleManager->getTitlePrefix($level).$title, $borders, 1);
 
     $this->content->Ln(5);
 
-    $this->executeRules('default', $title, $this);
+    $this->executeRules('default', $title);
   }
 
   /**

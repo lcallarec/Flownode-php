@@ -17,25 +17,25 @@ class HtmlDecorator extends Decorator
 {
   public function __construct()
   {
-     $this->set('default', function($value, $formatter) {
+     $this->set('default', function($formatter, $value) {
 
        return array('style' => 'color: red;');
 
      });
 
-     $this->set('title.0', function($value, $formatter) {
+     $this->set('title.0', function($formatter, $value) {
 
        return array('style' => 'color: red;');
 
      });
 
-     $this->set('title.1', function($value, $formatter) {
+     $this->set('title.1', function($formatter, $value) {
 
        return array('style' => 'font-size: 1.5em; border-bottom: 1px solid grey;');
 
      });
 
-     $this->set('title.2', function($value, $formatter) {
+     $this->set('title.2', function($formatter, $value) {
 
        return array('style' => 'font-size: 1.2em; border-bottom: 1px solid grey;');
 

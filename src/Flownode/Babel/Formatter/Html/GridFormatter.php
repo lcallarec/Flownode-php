@@ -38,8 +38,8 @@ class GridFormatter
   {
     $this->formatter = $formatter;
     $this->decorator = $formatter->getDecorator();
-    $this->columns = $columns;
-    $this->datas   = $datas;
+    $this->columns   = $columns;
+    $this->datas     = $datas;
   }
 
   public function addHeaders()
@@ -57,25 +57,27 @@ class GridFormatter
 
     foreach($this->datas as $i => $row)
     {
-      $attributes = array();
-      if(null !== $this->rowDecorator)
+      $attributes = '';
+      if($this->rowDecorator)
       {
-        $decorator = $this->decorator->get($this->rowDecorator);
-        $attributes = $this->formatter->formatStyle($decorator($row, $i, $this));
+        $attributes = array();
+        $this->formatter->executeRules($this->rowDecorator, $row, $i, $attributes);
+        $attributes = $this->formatter->formatStyle($attributes);
       }
 
       $this->formatter->append('<tr '.$attributes.'>');
+
       foreach($this->columns as $column)
       {
         $value = $column->getValue($row);
         $columnDecorator = $column->getColumnDecorator();
-        if($columnDecorator instanceof \Closure)
+
+        $attributes = '';
+        if($columnDecorator)
         {
-          $attributes = $this->formatter->formatStyle($columnDecorator($row, $column, $this));
-        }
-        else
-        {
-          $attributes = '';
+          $attributes = array();
+          $this->formatter->executeRules($columnDecorator, $value, $attributes);
+          $attributes = $this->formatter->formatStyle($attributes);
         }
 
         $this->formatter->append('<td '.$attributes.'>'.$value.'</td>');
@@ -85,9 +87,13 @@ class GridFormatter
     }
   }
 
-  public function setRowDecorator($decorator = null)
+  /**
+   * Set decorator rules triggered before each row rendering
+   * @param string |array $rules
+   */
+  public function setRowDecorator($rules = null)
   {
-    $this->rowDecorator = $decorator;
+    $this->rowDecorator = $rules;
   }
 
 }

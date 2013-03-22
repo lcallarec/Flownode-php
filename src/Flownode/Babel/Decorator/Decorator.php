@@ -48,7 +48,10 @@ abstract class Decorator
         $_rules = array();
         foreach($rules as $name => $rule)
         {
-          $_rules[$name] = $this->rules[$rule];
+          if(isset($this->rules[$rule]))
+          {
+            $_rules[$name] = $this->rules[$rule];
+          }
         }
 
         return $_rules;

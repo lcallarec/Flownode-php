@@ -99,7 +99,7 @@ class GridFormatter
     {
       if(null !== $this->rowDecorator)
       {
-        $this->formatter->executeRules($this->rowDecorator, $row, $r, $this->formatter);
+        $this->formatter->executeRules($this->rowDecorator, $row, $r);
       }
 
       foreach($this->columns as $c => $column)
