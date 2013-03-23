@@ -15,42 +15,26 @@ use
  *
  * @author Laurent CALLAREC <lcallarec@gmail.com>
  */
-class Image extends Element
+class Hr extends Element
 {
-
-  /**
-   * Path of image file
-   *
-   * @var string
-   */
-  protected $src;
-
-  /**
-   * Alternative text
-   *
-   * @var string
-   */
-  protected $alt;
-
   /**
    *
    * @param string $text
    */
-  public function __construct($src, $alt ='', $rules = 'default')
+  public function __construct($rules = 'default')
   {
-    $this->src   = $src;
-    $this->alt   = $alt;
     $this->rules = $rules;
   }
 
   /**
    * Laucnh format process
-   * @return \Flownode\Babel\Document\Element\Image
+   * @return \Flownode\Babel\Document\Element\Hr
    */
   public function format()
   {
-    $this->formatter->addImage($this->src, $this->alt, $this->rules);
+    $this->formatter->addHr($this->rules);
 
     return $this;
   }
 }
+

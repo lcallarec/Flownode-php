@@ -88,6 +88,22 @@ class Formatter extends AbstractFormatter
     $this->executeRules($rules, $src);
 
     $this->content->Image($src, '', '', '', '', '', '', 'N', false, 300, '', false, false, 0, false, false, true);
+
+    $this->executeRules('default', $title);
+  }
+
+  /**
+   * Add horizontal rule
+   * @param string |array $rules
+   */
+  public function addHr($rules = null)
+  {
+    
+    $this->executeRules($rules);
+
+    $this->content->Cell(0, 0, '', 'B', 1);
+
+    $this->executeRules('default');
   }
 
   /**

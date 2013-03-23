@@ -88,6 +88,25 @@ class Formatter extends AbstractFormatter
     }
 
     $this->content .= '<img '.$attributes.' src="'.$src.'" alt="'.$alt.'" />';
+
+  }
+
+  /**
+   * Add an horizontal rule
+   *
+   * @param string |array $rules
+   */
+  public function addHr($rules = null)
+  {
+    $attributes = '';
+    if($rules)
+    {
+      $attributes = array();
+      $this->executeRules($rules, $attributes);
+      $attributes = $this->formatStyle($attributes);
+    }
+
+    $this->content .= '<hr '.$attributes.' />';
   }
 
   /**
@@ -107,6 +126,7 @@ class Formatter extends AbstractFormatter
     $grid->addRows();
 
     $this->content .= '</table>';
+
   }
 
 
