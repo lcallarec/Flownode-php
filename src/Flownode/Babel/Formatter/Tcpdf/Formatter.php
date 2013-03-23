@@ -79,6 +79,19 @@ class Formatter extends AbstractFormatter
 
   /**
    *
+   * @param string        $src
+   * @param string        $alt
+   * @param string |array $rules
+   */
+  public function addImage($src, $alt, $rules = null)
+  {
+    $this->executeRules($rules, $src);
+
+    $this->content->Image($src, '', '', '', '', '', '', 'N', false, 300, '', false, false, 0, false, false, true);
+  }
+
+  /**
+   *
    * @return string
    */
   public function getContent()
