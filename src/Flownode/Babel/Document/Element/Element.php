@@ -11,6 +11,7 @@ namespace Flownode\Babel\Document\Element;
 
 use
   Flownode\Babel\Formatter\FormatterInterface,
+  Flownode\Babel\Document\Document,
   Flownode\Babel\Decorator\Decorator
 ;
 /**
@@ -29,6 +30,12 @@ abstract class Element extends \ArrayObject implements ElementInterface
   protected $formatter = null;
 
   /**
+   * The (root) document containing this element
+   * @var Document
+   */
+  protected $document;
+
+  /**
    * Decorator rules
    *
    * @var string | array
@@ -45,6 +52,27 @@ abstract class Element extends \ArrayObject implements ElementInterface
     $this->formatter = $formatter;
 
     return $this;
+  }
+
+  /**
+   *
+   * @param Document $document
+   * @return self
+   */
+  public function setDocument(Document $document)
+  {
+    $this->document = $document;
+
+    return $document;
+  }
+
+  /**
+   *
+   * @return Document
+   */
+  public function getDocument()
+  {
+    return $this->document;
   }
 
  /**
