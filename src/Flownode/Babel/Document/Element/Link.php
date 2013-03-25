@@ -41,7 +41,7 @@ class Link extends Element
 
   /**
    * Apply only for html format
-   * 
+   *
    * @var string
    */
   protected $rel;
@@ -76,6 +76,42 @@ class Link extends Element
     $this->formatter->addLink($this->href, $this->name, $this->target, $this->rel, $this->rules);
 
     return $this;
+  }
+
+  /**
+   * Get href value
+   * @return string
+   */
+  public function getHref()
+  {
+    return $this->href;
+  }
+
+  /**
+   * Get name value
+   * @return string
+   */
+  public function getName()
+  {
+    return $this->name;
+  }
+
+  /**
+   * Get target value
+   * @return string
+   */
+  public function getTarget()
+  {
+    return $this->target;
+  }
+
+  /**
+   * Get rel value
+   * @return string
+   */
+  public function getRel()
+  {
+    return $this->rel;
   }
 }
 

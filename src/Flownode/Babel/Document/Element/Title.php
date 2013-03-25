@@ -25,6 +25,13 @@ class Title extends Element
   protected $title;
 
   /**
+   * Title level (depth)
+   *
+   * @var int
+   */
+  protected $level;
+
+  /**
    *
    * @param string $title
    */
@@ -46,5 +53,23 @@ class Title extends Element
     return $this;
   }
 
+  /**
+   * Get title value
+   * @return string
+   */
+  public function getTitle()
+  {
+    return $this->title;
+  }
+
+  /**
+   * Get level value
+   * 
+   * @return int
+   */
+  public function getLevel()
+  {
+    return $this->level;
+  }
 }
 

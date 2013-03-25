@@ -53,4 +53,24 @@ class Image extends Element
 
     return $this;
   }
+
+  /**
+   * Get src value
+   *
+   * @return string
+   */
+  public function getSrc()
+  {
+    return $this->src;
+  }
+
+  /**
+   * Get alt value
+   * 
+   * @return string
+   */
+  public function getAlt()
+  {
+    return $this->alt;
+  }
 }

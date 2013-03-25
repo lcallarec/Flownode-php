@@ -45,5 +45,14 @@ class Paragraph extends Element
 
     return $this;
   }
+
+  /**
+   * Get text value
+   * @return string
+   */
+  public function getText()
+  {
+    return $this->text;
+  }
 }
 
