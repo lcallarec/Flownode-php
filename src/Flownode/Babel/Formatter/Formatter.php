@@ -11,7 +11,7 @@ namespace Flownode\Babel\Formatter;
 
 use
   Flownode\Babel\Formatter\FormatterInterface,
-  Flownode\Babel\Document\TitleManager,
+  Flownode\Babel\Manager\TitleManager,
   Flownode\Babel\Decorator\Decorator
 ;
 /**
@@ -29,19 +29,30 @@ abstract class Formatter implements FormatterInterface
   protected $decorator = null;
 
   /**
-   *
-   * @var TitleManager
-   */
-  protected $titleManager;
-  /**
    * Formatter content
    *
    * @var mixed
    */
   protected $content;
 
+  /**
+   * Font family
+   * @var string
+   */
   protected $fontFamily = 'dejavusans';
+
+  /**
+   * Font size
+   * @var int
+   */
   protected $fontSize   = '10';
+
+
+  /**
+   * Hash of manager
+   * @var array
+   */
+  protected $managers;
 
   /**
    *
@@ -49,8 +60,6 @@ abstract class Formatter implements FormatterInterface
    */
   public function __construct(Decorator $decorator)
   {
-    $this->titleManager = new TitleManager();
-
     $this->decorator    = $decorator;
   }
 
@@ -95,6 +104,26 @@ abstract class Formatter implements FormatterInterface
     {
       $closure($this, $arg1, $arg2, $arg3, $arg4);
     }
+  }
+
+  /**
+   *
+   * @param $manager
+   * @return self
+   */
+  public function setManager($manager)
+  {
+    $this->managers[$manager::NAME] = $manager;
+
+    return $this;
+  }
+
+  /**
+   * @return $manager
+   */
+  public function getManager($type)
+  {
+    return $this->managers[$type];
   }
 
 }

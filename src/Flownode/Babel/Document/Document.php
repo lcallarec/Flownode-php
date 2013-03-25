@@ -49,7 +49,7 @@ class Document extends \ArrayObject implements ElementInterface
   public function add(ElementInterface $component)
   {
     $component->setDocument($this);
-    
+
     $this->append($component);
 
     return $component;
@@ -91,4 +91,5 @@ class Document extends \ArrayObject implements ElementInterface
 
     return $this;
   }
+
 }

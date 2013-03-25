@@ -68,7 +68,7 @@ class Formatter extends AbstractFormatter
       $attributes = $this->formatStyle($attributes);
     }
 
-    $this->content .= '<h'.$level.' '.$attributes.'>'.$this->titleManager->getTitlePrefix($level).$title.'</h'.$level.'>';
+    $this->content .= '<h'.$level.' '.$attributes.'>'.$this->getManager('title')->getTitlePrefix($level).$title.'</h'.$level.'>';
   }
 
   /**
@@ -107,6 +107,32 @@ class Formatter extends AbstractFormatter
     }
 
     $this->content .= '<hr '.$attributes.' />';
+  }
+
+    /**
+   * Add an horizontal rule
+   *
+   * @param string |array $rules
+   */
+  public function addLink($href, $name, $target = '_blank', $rel = 'nofollow', $rules = 'default')
+  {
+    $attributes = array();
+
+    if($target)
+    {
+      $attribute['target'] = $target;
+    }
+
+    if($rel)
+    {
+      $attribute['rel'] = $rel;
+    }
+
+    $this->executeRules($rules, $attributes);
+
+    $attributes = $this->formatStyle($attributes);
+
+    $this->content .= '<a href="'.$href.'" '.$attributes.'>'.$name.'</a>';
   }
 
   /**

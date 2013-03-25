@@ -70,7 +70,7 @@ class Formatter extends AbstractFormatter
     $borders = array();
     $this->executeRules('header.'.$level, $title, $borders);
 
-    $this->content->Cell(0, 10, $this->titleManager->getTitlePrefix($level).$title, $borders, 1);
+    $this->content->Cell(0, 10, $this->getManager('title')->getTitlePrefix($level).$title, $borders, 1);
 
     $this->content->Ln(5);
 
@@ -98,7 +98,7 @@ class Formatter extends AbstractFormatter
    */
   public function addHr($rules = null)
   {
-    
+
     $this->executeRules($rules);
 
     $this->content->Cell(0, 0, '', 'B', 1);
