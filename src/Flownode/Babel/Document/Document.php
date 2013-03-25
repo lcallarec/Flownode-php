@@ -64,7 +64,7 @@ class Document extends \ArrayObject implements ElementInterface
   {
     foreach($this as $component)
     {
-      $component->setFormatter($this->formatter)->format();
+      $component->format();
     }
 
     return $this;
@@ -90,6 +90,15 @@ class Document extends \ArrayObject implements ElementInterface
     $this->formatter = $formatter;
 
     return $this;
+  }
+
+  /**
+   *
+   * @return FormatterInterface $formatter
+   */
+  public function getFormatter()
+  {
+    return $this->formatter;
   }
 
 }
