@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the Flownode package
  *
@@ -8,13 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Flownode\Babel\Document;
+namespace Flownode\Babel\Manager;
 /**
  *
  * @author Laurent CALLAREC <l.callarec@gmail.com>
  */
 class TitleManager
 {
+  const NAME = 'title';
  /**
    * Current title level, before calling to addTitle() method
    *
@@ -24,6 +24,12 @@ class TitleManager
 
   protected $levelRail = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
+  /**
+   * Each value must be a static variable inside the getTitlerefix method
+   * (ugly)
+   *
+   * @var array
+   */
   protected $titleMask = array('num', 'num', 'num', 'num', 'num', 'num', 'num', 'num');
 
   protected $title = array();
@@ -33,6 +39,12 @@ class TitleManager
     return $this->level;
   }
 
+  /**
+   *
+   * @staticvar array   $num
+   * @param     int     $level
+   * @return    string  The prefix, like 1.2.3.3
+   */
   public function getTitlePrefix($level = 0)
   {
 
