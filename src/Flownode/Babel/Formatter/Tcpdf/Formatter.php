@@ -11,8 +11,7 @@ namespace Flownode\Babel\Formatter\Tcpdf;
 
 use
   Flownode\Babel\Formatter\Formatter as AbstractFormatter,
-  Flownode\Babel\Formatter\Tcpdf\GridFormatter,
-  Flownode\Babel\Styles\TcpdfStyles;
+  Flownode\Babel\Formatter\Tcpdf\GridFormatter
 ;
 
 /**
@@ -23,7 +22,11 @@ use
 class Formatter extends AbstractFormatter
 {
 
-  public function __construct($decorator)
+  /**
+   *
+   * @param \Flownode\Babel\Decorator\Decorator $decorator
+   */
+  public function __construct(\Flownode\Babel\Decorator\Decorator $decorator)
   {
     parent::__construct($decorator);
 
@@ -45,68 +48,91 @@ class Formatter extends AbstractFormatter
 
     $this->content->AddPage();
 
-
   }
 
   /**
-   * Add a paragraph
-   * @param string $content
+   *
+   * @param \Flownode\Babel\Document\Element\Paragraph $paragraph
+   * @return void
    */
-  public function addParagraph($content = '', $rules = null)
+  public function addParagraph(\Flownode\Babel\Document\Element\Paragraph $paragraph)
   {
-    $this->executeRules($rules, $content);
-    $this->content->Cell(50, 10, $content, 0, 1);
+    $text = $paragraph->getText();
+    $this->executeRules($paragraph->getRules(), $text);
+    $this->content->Cell(50, 10, $text, 0, 1);
     $this->executeRules('default');
   }
 
   /**
    *
-   * @param type $title
-   * @param type $level
-   * @param type $suffix
+   * @param \Flownode\Babel\Document\Element\Title $title
+   * @return void
    */
-  public function addTitle($title = '', $level = 0, $rules = null)
+  public function addTitle(\Flownode\Babel\Document\Element\Title $title)
   {
     $borders = array();
-    $this->executeRules('header.'.$level, $title, $borders);
 
-    $this->content->Cell(0, 10, $this->getManager('title')->getTitlePrefix($level).$title, $borders, 1);
+    $titleName = $title->getTitle();
+
+    $this->executeRules('header.'.$title->getLevel(), $titleName, $borders);
+
+    $this->content->Cell(0, 10, $this->getManager('title')->getTitlePrefix($title->getLevel()).$titleName, $borders, 1);
 
     $this->content->Ln(5);
 
-    $this->executeRules('default', $title);
-  }
-
-  /**
-   *
-   * @param string        $src
-   * @param string        $alt
-   * @param string |array $rules
-   */
-  public function addImage($src, $alt, $rules = null)
-  {
-    $this->executeRules($rules, $src);
-
-    $this->content->Image($src, '', '', '', '', '', '', 'N', false, 300, '', false, false, 0, false, false, true);
-
-    $this->executeRules('default', $title);
-  }
-
-  /**
-   * Add horizontal rule
-   * @param string |array $rules
-   */
-  public function addHr($rules = null)
-  {
-
-    $this->executeRules($rules);
-
-    $this->content->Cell(0, 0, '', 'B', 1);
-
     $this->executeRules('default');
   }
 
   /**
+   *
+   * @param \Flownode\Babel\Document\Element\Image $image
+   * @return void
+   */
+  public function addImage(\Flownode\Babel\Document\Element\Image $image)
+  {
+    $src = $image->getSrc();
+    $this->executeRules($image->getRules(), $src);
+
+    $this->content->Image($image->getSrc(), '', '', '', '', '', '', 'N', false, 300, '', false, false, 0, false, false, true);
+
+    $this->executeRules('default', $src);
+  }
+
+  /**
+   *
+   * @param \Flownode\Babel\Document\Element\Hr $hr
+   * @return void
+   */
+  public function addHr(\Flownode\Babel\Document\Element\Hr $hr)
+  {
+
+    $this->executeRules($hr->getRules());
+
+    $this->content->Cell(0, 0, '', 'B', 1);
+
+
+  }
+
+  /**
+   *
+   * @param \Flownode\Babel\Document\Element\Link $link
+   * @return void
+   */
+  public function addLink(\Flownode\Babel\Document\Element\Link $link)
+  {
+    $href   = $link->getHref();
+    $name   = $link->getName();
+
+    $this->executeRules($link->getRules(), $href, $name);
+
+    $this->content->Write('', $name, $href, false, '', true);
+
+    $this->executeRules('default');
+
+  }
+
+  /**
+   * Get the TCPDF writer ...
    *
    * @return string
    */
@@ -117,17 +143,18 @@ class Formatter extends AbstractFormatter
 
   /**
    *
-   * @param array $headers
-   * @param array $body
+   * @param \Flownode\Babel\Document\Grid\Grid $grid
+   * @return void
    */
-  public function addGrid($columns, $datas, $rowDecorator = null)
+  public function addGrid(\Flownode\Babel\Document\Grid\Grid $grid)
   {
 
-    $grid = new GridFormatter($this, $columns, $datas);
-    $grid->setRowDecorator($rowDecorator);
-    $grid->addHeaders();
+    $formatter = new GridFormatter($this, $grid->getColumns(), $grid->getArrayCopy());
+    $formatter->setRowDecorator($grid->getRowDecorator());
 
-    $grid->addRows();
+    $formatter->addHeaders();
+
+    $formatter->addRows();
 
   }
 

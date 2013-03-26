@@ -12,7 +12,8 @@ namespace Flownode\Babel\Formatter;
 use
   Flownode\Babel\Formatter\FormatterInterface,
   Flownode\Babel\Manager\TitleManager,
-  Flownode\Babel\Decorator\Decorator
+  Flownode\Babel\Decorator\Decorator,
+  Flownode\Babel\Document\Element\ElementInterface
 ;
 /**
  * PDF Formatter using TCPDF
@@ -72,6 +73,11 @@ abstract class Formatter implements FormatterInterface
     return $this->decorator;
   }
 
+  /**
+   *
+   * @param int $fontSize
+   * @return \Flownode\Babel\Formatter\Formatter
+   */
   public function setFontSize($fontSize)
   {
     $this->fontSize = $fontSize;
@@ -79,6 +85,11 @@ abstract class Formatter implements FormatterInterface
     return $this;
   }
 
+  /**
+   *
+   * @param string $fontFamily
+   * @return \Flownode\Babel\Formatter\Formatter
+   */
   public function setFontFamily($fontFamily)
   {
     $this->fontFamily = $fontFamily;
@@ -86,16 +97,32 @@ abstract class Formatter implements FormatterInterface
     return $this;
   }
 
+  /**
+   *
+   * @return int
+   */
   public function getFontSize()
   {
     return $this->fontSize;
   }
 
+  /**
+   *
+   * @return string
+   */
   public function getFontFamily()
   {
     return $this->fontFamily;
   }
 
+  /**
+   *
+   * @param mixed $rules
+   * @param mixed $arg1
+   * @param mixed $arg2
+   * @param mixed $arg3
+   * @param mixed $arg4
+   */
   public function executeRules($rules, &$arg1 = null, &$arg2 = null, &$arg3 = null, &$arg4 = null)
   {
     $closures = $this->decorator->get($rules);
@@ -124,6 +151,18 @@ abstract class Formatter implements FormatterInterface
   public function getManager($type)
   {
     return $this->managers[$type];
+  }
+
+
+  /**
+   * Call the formatter according to Element type
+   * @param \Flownode\Babel\Document\Element\ElementInterface $element
+   */
+  public function format(ElementInterface $element)
+  {
+    $method = ucfirst($element::TYPE);
+
+    $this->{'add'.$method}($element);
   }
 
 }

@@ -17,6 +17,7 @@ use
  */
 class Hr extends Element
 {
+  const TYPE = 'hr';
   /**
    *
    * @param string $text
@@ -26,15 +27,6 @@ class Hr extends Element
     $this->rules = $rules;
   }
 
-  /**
-   * Laucnh format process
-   * @return \Flownode\Babel\Document\Element\Hr
-   */
-  public function format()
-  {
-    $this->formatter->addHr($this->rules);
 
-    return $this;
-  }
 }
 

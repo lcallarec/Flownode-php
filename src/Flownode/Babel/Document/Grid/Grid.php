@@ -19,22 +19,13 @@ use
  */
 class Grid extends Element
 {
+  const TYPE = 'grid';
+
   protected $formatter = null;
 
   protected $columns = array();
 
   protected $rowDecorator = null;
-
-  /**
-   * Laucnh format process
-   * @return \Flownode\Babel\Document\Element\Grid
-   */
-  public function format()
-  {
-    $this->formatter->addGrid($this->columns, $this->getArrayCopy(), $this->rowDecorator);
-
-    return $this;
-  }
 
   /**
    * Add headers, only one set of headers can be set
@@ -47,7 +38,7 @@ class Grid extends Element
   }
 
   /**
-   * 
+   *
    * @param string $decorator
    */
   public function setRowDecorator($decorator = null)
@@ -55,5 +46,17 @@ class Grid extends Element
     $this->rowDecorator = $decorator;
   }
 
-}
+  public function getRowDecorator()
+  {
+    return $this->rowDecorator;
+  }
 
+  /**
+   *
+   * @return Flownode\Babel\Document\Grid\Column
+   */
+  public function getColumns()
+  {
+    return $this->columns;
+  }
+}

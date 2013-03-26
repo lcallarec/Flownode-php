@@ -18,6 +18,8 @@ use
  */
 class Title extends Element
 {
+  const TYPE = 'title';
+
   /**
    * Document title
    * @var string
@@ -43,17 +45,6 @@ class Title extends Element
   }
 
   /**
-   * Laucnh format process
-   * @return \Flownode\Babel\Document\Element\Title
-   */
-  public function format()
-  {
-    $this->formatter->addTitle($this->title, $this->level, $this->rules);
-
-    return $this;
-  }
-
-  /**
    * Get title value
    * @return string
    */
@@ -64,7 +55,7 @@ class Title extends Element
 
   /**
    * Get level value
-   * 
+   *
    * @return int
    */
   public function getLevel()

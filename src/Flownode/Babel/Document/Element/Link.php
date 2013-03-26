@@ -17,6 +17,8 @@ use
  */
 class Link extends Element
 {
+  const TYPE = 'link';
+
   /**
    * URL of the ressource
    * @var string
@@ -65,17 +67,6 @@ class Link extends Element
     $this->rel   = $rel;
 
     $this->rules = $rules;
-  }
-
-  /**
-   * Laucnh format process
-   * @return \Flownode\Babel\Document\Element\Hr
-   */
-  public function format()
-  {
-    $this->formatter->addLink($this->href, $this->name, $this->target, $this->rel, $this->rules);
-
-    return $this;
   }
 
   /**

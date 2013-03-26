@@ -77,18 +77,12 @@ abstract class Element extends \ArrayObject implements ElementInterface
     return $this->document;
   }
 
- /**
-  * Laucnh format process
-  * @return \Flownode\Babel\Document\Element\Element
-  */
-  public function format()
+  /**
+   *
+   * @return array
+   */
+  public function getRules()
   {
-    foreach($this as $part)
-    {
-      $part->format();
-    }
-
-    return $this;
+    return $this->rules;
   }
-
 }

@@ -18,7 +18,6 @@ interface FormatterInterface
 {
 
   public function getContent();
-  public function addParagraph($text = '', $rules = null);
-  public function addTitle($title = '', $level = '', $rules = null);
+
 }
 

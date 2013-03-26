@@ -11,8 +11,7 @@ namespace Flownode\Babel\Formatter\Html;
 
 use
   Flownode\Babel\Formatter\Formatter as AbstractFormatter,
-  Flownode\Babel\Formatter\Html\GridFormatter,
-  Flownode\Babel\Styles\HtmlStyles;
+  Flownode\Babel\Formatter\Html\GridFormatter
 ;
 
 /**
@@ -30,19 +29,25 @@ class Formatter extends AbstractFormatter
    */
   protected $content = '';
 
-  public function __construct($decorator)
+  /**
+   *
+   * @param \Flownode\Babel\Decorator\Decorator $decorator
+   */
+  public function __construct(\Flownode\Babel\Decorator\Decorator $decorator)
   {
     parent::__construct($decorator);
   }
 
   /**
-   * Add a paragraph
-   * @param string $content
+   *
+   * @param \Flownode\Babel\Document\Element\Paragraph $paragraph
+   * @return void
    */
-  public function addParagraph($content = '', $rules = null)
+  public function addParagraph(\Flownode\Babel\Document\Element\Paragraph $paragraph)
   {
     $attributes = '';
-    if($rules)
+    $content    = $paragraph->getText();
+    if($rules = $paragraph->getRules())
     {
       $attributes = array();
       $this->executeRules($rules, $content, $attributes);
@@ -54,33 +59,35 @@ class Formatter extends AbstractFormatter
 
   /**
    *
-   * @param type $title
-   * @param type $level
-   * @param type $suffix
+   * @param \Flownode\Babel\Document\Element\Title $title
+   * @return void
    */
-  public function addTitle($title = '', $level = 0, $rules = null)
+  public function addTitle(\Flownode\Babel\Document\Element\Title $title)
   {
     $attributes = '';
-    if($rules)
+    $titleName = $title->getTitle();
+    $level     = $title->getLevel();
+    if($rules = $title->getRules())
     {
       $attributes = array();
-      $this->executeRules($rules, $title, $attributes);
+      $this->executeRules($rules, $titleName, $attributes);
       $attributes = $this->formatStyle($attributes);
     }
 
-    $this->content .= '<h'.$level.' '.$attributes.'>'.$this->getManager('title')->getTitlePrefix($level).$title.'</h'.$level.'>';
+    $this->content .= '<h'.$level.' '.$attributes.'>'.$this->getManager('title')->getTitlePrefix($level).$titleName.'</h'.$level.'>';
   }
 
   /**
    *
-   * @param string        $src
-   * @param string        $alt
-   * @param string |array $rules
+   * @param \Flownode\Babel\Document\Element\Image $image
+   * @return void
    */
-  public function addImage($src, $alt, $rules = null)
+  public function addImage(\Flownode\Babel\Document\Element\Image $image)
   {
     $attributes = '';
-    if($rules)
+    $src = $image->getSrc();
+    $alt = $image->getAlt();
+    if($rules = $image->getRules())
     {
       $attributes = array();
       $this->executeRules($rules, $src, $attributes);
@@ -92,14 +99,14 @@ class Formatter extends AbstractFormatter
   }
 
   /**
-   * Add an horizontal rule
    *
-   * @param string |array $rules
+   * @param \Flownode\Babel\Document\Element\Hr $hr
+   * @return void
    */
-  public function addHr($rules = null)
+  public function addHr(\Flownode\Babel\Document\Element\Hr $hr)
   {
     $attributes = '';
-    if($rules)
+    if($rules = $hr->getRules())
     {
       $attributes = array();
       $this->executeRules($rules, $attributes);
@@ -109,15 +116,18 @@ class Formatter extends AbstractFormatter
     $this->content .= '<hr '.$attributes.' />';
   }
 
-    /**
-   * Add an horizontal rule
+  /**
    *
-   * @param string |array $rules
+   * @param \Flownode\Babel\Document\Element\Link $link
+   * @return void
    */
-  public function addLink($href, $name, $target = '_blank', $rel = 'nofollow', $rules = 'default')
+  public function addLink(\Flownode\Babel\Document\Element\Link $link)
   {
     $attributes = array();
-
+    $href   = $link->getHref();
+    $name   = $link->getName();
+    $target = $link->getTarget();
+    $rel    = $link->getRel();
     if($target)
     {
       $attribute['target'] = $target;
@@ -128,7 +138,7 @@ class Formatter extends AbstractFormatter
       $attribute['rel'] = $rel;
     }
 
-    $this->executeRules($rules, $attributes);
+    $this->executeRules($link->getRules(), $attributes);
 
     $attributes = $this->formatStyle($attributes);
 
@@ -137,19 +147,19 @@ class Formatter extends AbstractFormatter
 
   /**
    *
-   * @param array $headers
-   * @param array $body
+   * @param \Flownode\Babel\Document\Element\Paragraph $grid
+   * @return void
    */
-  public function addGrid($columns, $datas, $rowDecorator = null)
+  public function addGrid(\Flownode\Babel\Document\Grid\Grid $grid)
   {
 
-    $grid = new GridFormatter($this, $columns, $datas);
-    $grid->setRowDecorator($rowDecorator);
+    $formatter = new GridFormatter($this, $grid->getColumns(), $grid->getArrayCopy());
+    $formatter->setRowDecorator($grid->getRowDecorator());
 
     $this->content .= '<table>';
 
-    $grid->addHeaders();
-    $grid->addRows();
+    $formatter->addHeaders();
+    $formatter->addRows();
 
     $this->content .= '</table>';
 

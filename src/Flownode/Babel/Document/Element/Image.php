@@ -17,6 +17,7 @@ use
  */
 class Image extends Element
 {
+  const TYPE = 'image';
 
   /**
    * Path of image file
@@ -44,17 +45,6 @@ class Image extends Element
   }
 
   /**
-   * Laucnh format process
-   * @return \Flownode\Babel\Document\Element\Image
-   */
-  public function format()
-  {
-    $this->formatter->addImage($this->src, $this->alt, $this->rules);
-
-    return $this;
-  }
-
-  /**
    * Get src value
    *
    * @return string
@@ -66,7 +56,7 @@ class Image extends Element
 
   /**
    * Get alt value
-   * 
+   *
    * @return string
    */
   public function getAlt()

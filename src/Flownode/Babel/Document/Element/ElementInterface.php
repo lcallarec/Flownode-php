@@ -20,13 +20,6 @@ use
 interface ElementInterface
 {
   /**
-   * Launch format process
-   *
-   * @return self
-   */
-  public function format();
-
-  /**
    * Set the element formatter
    *
    * @param \Flownode\Babel\Formatter\FormatterInterface $formatter

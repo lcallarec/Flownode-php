@@ -17,6 +17,8 @@ use
  */
 class Paragraph extends Element
 {
+  const TYPE = 'paragraph';
+
   /**
    * Paragraph text
    *
@@ -33,17 +35,6 @@ class Paragraph extends Element
     $this->text = $text;
 
     $this->rules = $rules;
-  }
-
-  /**
-   * Laucnh format process
-   * @return \Flownode\Babel\Document\Element\Paragraph
-   */
-  public function format()
-  {
-    $this->formatter->addParagraph($this->text, $this->rules);
-
-    return $this;
   }
 
   /**
