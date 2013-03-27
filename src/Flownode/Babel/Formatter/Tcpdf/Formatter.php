@@ -76,7 +76,7 @@ class Formatter extends AbstractFormatter
 
     $this->executeRules('header.'.$title->getLevel(), $titleName, $borders);
 
-    $this->content->Cell(0, 10, $this->getManager('title')->getTitlePrefix($title->getLevel()).$titleName, $borders, 1);
+    $this->content->Cell(0, 10, $title->getPrefix().$titleName, $borders, 1);
 
     $this->content->Ln(5);
 

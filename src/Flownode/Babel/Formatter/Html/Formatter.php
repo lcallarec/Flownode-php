@@ -74,7 +74,7 @@ class Formatter extends AbstractFormatter
       $attributes = $this->formatStyle($attributes);
     }
 
-    $this->content .= '<h'.$level.' '.$attributes.'>'.$this->getManager('title')->getTitlePrefix($level).$titleName.'</h'.$level.'>';
+    $this->content .= '<h'.$level.' '.$attributes.'>'.$title->getPrefix().$titleName.'</h'.$level.'>';
   }
 
   /**
