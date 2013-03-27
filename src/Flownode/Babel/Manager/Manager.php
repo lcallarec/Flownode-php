@@ -38,6 +38,10 @@ abstract class Manager
     return $this;
   }
 
+  /**
+   * Launch the format process
+   * Do nothing for non-writing manager
+   */
   public function format()
   {
 

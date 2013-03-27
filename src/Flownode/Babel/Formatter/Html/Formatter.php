@@ -169,13 +169,14 @@ class Formatter extends AbstractFormatter
   /**
    *
    * @param \Flownode\Babel\Document\Element\Link $link
+   * @param string $position
    * @return void
    */
-  public function addTOC(\Flownode\Babel\Manager\TOCManager $toc, $page)
+  public function addTOC(\Flownode\Babel\Manager\TOCManager $toc, $position)
   {
     $formatter = new TOCFormatter($this, $toc);
 
-    if($page === 1)
+    if($position === \Flownode\Babel\Manager\TOCManager::POSITION_FIRST)
     {
       $this->content = $formatter->getContent().$this->content;
     }

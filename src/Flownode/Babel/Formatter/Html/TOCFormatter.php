@@ -34,6 +34,10 @@ class TOCFormatter
     }
   }
 
+  /**
+   * Get HTML TOC content
+   * @return string
+   */
   public function getContent()
   {
     return $this->content;

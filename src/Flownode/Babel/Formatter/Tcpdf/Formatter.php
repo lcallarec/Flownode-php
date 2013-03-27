@@ -106,12 +106,9 @@ class Formatter extends AbstractFormatter
    */
   public function addHr(\Flownode\Babel\Document\Element\Hr $hr)
   {
-
     $this->executeRules($hr->getRules());
 
     $this->content->Cell(0, 0, '', 'B', 1);
-
-
   }
 
   /**
@@ -129,18 +126,27 @@ class Formatter extends AbstractFormatter
     $this->content->Write('', $name, $href, false, '', true);
 
     $this->executeRules('default');
-
   }
 
   /**
    *
    * @param \Flownode\Babel\Document\Element\Link $link
+   * @param string  $position
    * @return void
    */
-  public function addTOC(\Flownode\Babel\Manager\TOCManager $toc, $page)
+  public function addTOC(\Flownode\Babel\Manager\TOCManager $toc, $position)
   {
     $this->content->addTOCPage();
-    $this->content->addTOC(1);
+    if($position === \Flownode\Babel\Manager\TOCManager::POSITION_FIRST)
+    {
+      $position = 1;
+    }
+    else
+    {
+      $position = '';
+    }
+
+    $this->content->addTOC($position);
     $this->content->endTOCPage();
   }
 

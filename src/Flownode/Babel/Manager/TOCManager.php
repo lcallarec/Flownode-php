@@ -20,6 +20,13 @@ class TOCManager extends Manager
   const NAME = 'toc';
 
   /**
+   * Position of the TOC inside the document
+   */
+  const POSITION_LAST  = 'LAST';
+  const POSITION_FIRST = 'FIRST';
+
+
+  /**
    * Hash of titles
    *
    * Values are arrays :
@@ -32,12 +39,19 @@ class TOCManager extends Manager
   protected $titles = array();
 
   /**
+   * Position of TOC inside the document
+   * May be : self::POSITION_LAST or self::POSITION_FIRST
+   * @var string
+   */
+  protected $position;
+
+  /**
    *
    * @param string $page
    */
-  public function __construct($page)
+  public function __construct($position)
   {
-    $this->page = 1;
+    $this->position = $position;
   }
 
   /**
@@ -69,7 +83,7 @@ class TOCManager extends Manager
    */
   public function format()
   {
-    $this->formatter->addTOC($this, $this->page);
+    $this->formatter->addTOC($this, $this->position);
 
     return $this;
   }
