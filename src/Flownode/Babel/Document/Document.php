@@ -12,7 +12,8 @@ namespace Flownode\Babel\Document;
 
 use
   Flownode\Babel\Document\Element\ElementInterface,
-  Flownode\Babel\Formatter\FormatterInterface
+  Flownode\Babel\Formatter\FormatterInterface,
+Flownode\Babel\Manager\Manager
 ;
 
 /**
@@ -114,10 +115,10 @@ class Document extends \ArrayObject implements ElementInterface
 
    /**
    *
-   * @param $manager
+   * @param Manager $manager
    * @return self
    */
-  public function setManager($manager)
+  public function setManager(Manager $manager)
   {
     $manager->setFormatter($this->formatter);
     $this->managers[$manager::NAME] = $manager;
