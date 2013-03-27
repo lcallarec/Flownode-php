@@ -11,8 +11,7 @@ namespace Flownode\Babel\Document\Element;
 
 use
   Flownode\Babel\Formatter\FormatterInterface,
-  Flownode\Babel\Document\Document,
-  Flownode\Babel\Decorator\Decorator
+  Flownode\Babel\Document\Document
 ;
 /**
  * Abstract class inherited by all Elements
@@ -21,7 +20,6 @@ use
  */
 abstract class Element extends \ArrayObject implements ElementInterface
 {
-
   /**
    * Formatter
    *
@@ -50,6 +48,17 @@ abstract class Element extends \ArrayObject implements ElementInterface
   protected $id = null;
 
   /**
+   * Flowmode :
+   * In BLOCK mode, the element will format a line break after itself during format
+   *          The next element will be rendered on a new line
+   *
+   * In INLINE mode, the element will NOT format a line break after itself during format
+   *           The next element will be rendered on the same line, just after.
+   * @var string
+   */
+  protected $flowMode = 'BLOCK';
+
+  /**
    *
    * @param FormatterInterface $formatter
    * @return self
@@ -62,7 +71,8 @@ abstract class Element extends \ArrayObject implements ElementInterface
   }
 
   /**
-   *
+   * Register the document as the element parent
+   * @see Document::add() method
    * @param Document $document
    * @return self
    */
@@ -119,5 +129,28 @@ abstract class Element extends \ArrayObject implements ElementInterface
     }
 
     return $this->id;
+  }
+
+  /**
+   * Assign a new flowmode
+   *
+   * @param string $flowMode
+   * @return \Flownode\Babel\Document\Element\Element
+   */
+  public function setFlowMode($flowMode)
+  {
+    $this->flowMode = (string) $flowMode;
+
+    return $this;
+  }
+
+  /**
+   * Get the element flowmode
+   *
+   * @return string
+   */
+  public function getFlowMode()
+  {
+    return $this->flowMode;
   }
 }
