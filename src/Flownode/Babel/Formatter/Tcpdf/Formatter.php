@@ -2,7 +2,7 @@
 /**
  * This file is part of the Flownode package
  *
- * (c) Laurent CALLAREC <lcallarec@gmail.com>
+ * (c) Laurent CALLAREC <l.callarec@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,7 +17,7 @@ use
 /**
  * PDF Formatter using TCPDF
  *
- * @author Laurent CALLAREC <lcallarec@gmail.com>
+ * @author Laurent CALLAREC <l.callarec@gmail.com>
  */
 class Formatter extends AbstractFormatter
 {
@@ -76,6 +76,7 @@ class Formatter extends AbstractFormatter
 
     $this->executeRules('header.'.$title->getLevel(), $titleName, $borders);
 
+    $this->content->Bookmark( $title->getPrefix().$titleName, $title->getLevel());
     $this->content->Cell(0, 10, $title->getPrefix().$titleName, $borders, 1);
 
     $this->content->Ln(5);
@@ -129,6 +130,18 @@ class Formatter extends AbstractFormatter
 
     $this->executeRules('default');
 
+  }
+
+  /**
+   *
+   * @param \Flownode\Babel\Document\Element\Link $link
+   * @return void
+   */
+  public function addTOC(\Flownode\Babel\Manager\TOCManager $toc, $page)
+  {
+    $this->content->addTOCPage();
+    $this->content->addTOC(1);
+    $this->content->endTOCPage();
   }
 
   /**

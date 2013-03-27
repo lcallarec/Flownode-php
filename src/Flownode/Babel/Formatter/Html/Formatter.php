@@ -2,7 +2,7 @@
 /**
  * This file is part of the Flownode package
  *
- * (c) Laurent CALLAREC <lcallarec@gmail.com>
+ * (c) Laurent CALLAREC <l.callarec@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,7 +17,7 @@ use
 /**
  * HTML Formatter
  *
- * @author Laurent CALLAREC <lcallarec@gmail.com>
+ * @author Laurent CALLAREC <l.callarec@gmail.com>
  */
 class Formatter extends AbstractFormatter
 {
@@ -45,14 +45,14 @@ class Formatter extends AbstractFormatter
    */
   public function addParagraph(\Flownode\Babel\Document\Element\Paragraph $paragraph)
   {
-    $attributes = '';
+    $attributes = array();
     $content    = $paragraph->getText();
     if($rules = $paragraph->getRules())
     {
-      $attributes = array();
       $this->executeRules($rules, $content, $attributes);
-      $attributes = $this->formatStyle($attributes);
     }
+
+    $attributes = $this->formatStyle($attributes);
 
     $this->content .= '<p '.$attributes.'>'.$content.'</p>';
   }
@@ -64,15 +64,16 @@ class Formatter extends AbstractFormatter
    */
   public function addTitle(\Flownode\Babel\Document\Element\Title $title)
   {
-    $attributes = '';
+    $attributes = array('id' => $title->getId());
     $titleName = $title->getTitle();
     $level     = $title->getLevel();
     if($rules = $title->getRules())
     {
-      $attributes = array();
       $this->executeRules($rules, $titleName, $attributes);
-      $attributes = $this->formatStyle($attributes);
     }
+
+    $attributes = $this->formatStyle($attributes);
+    $title->getDocument()->getManager('toc')->register($title->getPrefix(), $titleName, $title->getId());
 
     $this->content .= '<h'.$level.' '.$attributes.'>'.$title->getPrefix().$titleName.'</h'.$level.'>';
   }
@@ -84,15 +85,15 @@ class Formatter extends AbstractFormatter
    */
   public function addImage(\Flownode\Babel\Document\Element\Image $image)
   {
-    $attributes = '';
+    $attributes = array();
     $src = $image->getSrc();
     $alt = $image->getAlt();
     if($rules = $image->getRules())
     {
-      $attributes = array();
       $this->executeRules($rules, $src, $attributes);
-      $attributes = $this->formatStyle($attributes);
     }
+
+    $attributes = $this->formatStyle($attributes);
 
     $this->content .= '<img '.$attributes.' src="'.$src.'" alt="'.$alt.'" />';
 
@@ -105,13 +106,13 @@ class Formatter extends AbstractFormatter
    */
   public function addHr(\Flownode\Babel\Document\Element\Hr $hr)
   {
-    $attributes = '';
+    $attributes = array();
     if($rules = $hr->getRules())
     {
-      $attributes = array();
       $this->executeRules($rules, $attributes);
-      $attributes = $this->formatStyle($attributes);
     }
+
+    $attributes = $this->formatStyle($attributes);
 
     $this->content .= '<hr '.$attributes.' />';
   }
@@ -163,6 +164,25 @@ class Formatter extends AbstractFormatter
 
     $this->content .= '</table>';
 
+  }
+
+  /**
+   *
+   * @param \Flownode\Babel\Document\Element\Link $link
+   * @return void
+   */
+  public function addTOC(\Flownode\Babel\Manager\TOCManager $toc, $page)
+  {
+    $formatter = new TOCFormatter($this, $toc);
+
+    if($page === 1)
+    {
+      $this->content = $formatter->getContent().$this->content;
+    }
+    else
+    {
+      $this->content .= $formatter->getContent();
+    }
   }
 
 

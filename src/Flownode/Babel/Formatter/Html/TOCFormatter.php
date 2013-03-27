@@ -3,22 +3,19 @@
 /**
  * This file is part of the Flownode package
  *
- * (c) Laurent CALLAREC <lcallarec@gmail.com>
+ * (c) Laurent CALLAREC <l.callarec@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 namespace Flownode\Babel\Formatter\Html;
 
-use
-  Flownode\Babel\Decorator\Decorator
-;
-
 /**
+ * Table of content formatter
  *
- * @author Laurent CALLAREC <lcallarec@gmail.com>
+ * @author Laurent CALLAREC <l.callarec@gmail.com>
  */
-class GridFormatter
+class TOCFormatter
 {
   /**
    *
@@ -26,74 +23,19 @@ class GridFormatter
    */
   protected $formatter;
 
-  /**
-   *
-   * @var Flownode\Babel\Decorator\Decorator;
-   */
-  protected $decorator;
-
-  protected $rowDecorator = null;
-
-  public function __construct(Formatter $formatter, $columns, $datas)
+  public function __construct(Formatter $formatter, $toc)
   {
     $this->formatter = $formatter;
-    $this->decorator = $formatter->getDecorator();
-    $this->columns   = $columns;
-    $this->datas     = $datas;
-  }
 
-  public function addHeaders()
-  {
-    $this->formatter->append('<thead><tr>');
-    foreach($this->columns as $column)
+    $this->content = '';
+    foreach($toc->getTitles() as $title)
     {
-      $this->formatter->append('<th>'.$column->getName().'</th>');
-    }
-    $this->formatter->append('</thead></tr>');
-  }
-
-  public function addRows()
-  {
-
-    foreach($this->datas as $i => $row)
-    {
-      $attributes = '';
-      if($this->rowDecorator)
-      {
-        $attributes = array();
-        $this->formatter->executeRules($this->rowDecorator, $row, $i, $attributes);
-        $attributes = $this->formatter->formatStyle($attributes);
-      }
-
-      $this->formatter->append('<tr '.$attributes.'>');
-
-      foreach($this->columns as $column)
-      {
-        $value = $column->getValue($row);
-        $columnDecorator = $column->getColumnDecorator();
-
-        $attributes = '';
-        if($columnDecorator)
-        {
-          $attributes = array();
-          $this->formatter->executeRules($columnDecorator, $value, $attributes);
-          $attributes = $this->formatter->formatStyle($attributes);
-        }
-
-        $this->formatter->append('<td '.$attributes.'>'.$value.'</td>');
-      }
-
-      $this->formatter->append('</tr>');
+      $this->content .= '<a href="#'.$title['id'].'">'.$title['name'].'</a><br />';
     }
   }
 
-  /**
-   * Set decorator rules triggered before each row rendering
-   * @param string |array $rules
-   */
-  public function setRowDecorator($rules = null)
+  public function getContent()
   {
-    $this->rowDecorator = $rules;
+    return $this->content;
   }
-
 }

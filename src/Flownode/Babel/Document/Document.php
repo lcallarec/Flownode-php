@@ -73,6 +73,11 @@ class Document extends \ArrayObject implements ElementInterface
       $this->formatter->format($component);
     }
 
+    foreach($this->managers as $manager)
+    {
+      $manager->format();
+    }
+
     return $this;
   }
 
@@ -114,17 +119,23 @@ class Document extends \ArrayObject implements ElementInterface
    */
   public function setManager($manager)
   {
+    $manager->setFormatter($this->formatter);
     $this->managers[$manager::NAME] = $manager;
 
     return $this;
   }
 
   /**
-   * @return $manager
+   * @return mixed  Manager or null if none was found
    */
   public function getManager($type)
   {
-    return $this->managers[$type];
+    if(isset($this->managers[$type]))
+    {
+      return $this->managers[$type];
+    }
+
+    return null;
   }
 
 

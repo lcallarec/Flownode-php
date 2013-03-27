@@ -8,11 +8,15 @@
  * file that was distributed with this source code.
  */
 namespace Flownode\Babel\Manager;
+
+use
+  Flownode\Babel\Manager\TOCManager
+;
 /**
  *
  * @author Laurent CALLAREC <l.callarec@gmail.com>
  */
-class TitleManager
+class TitleManager extends Manager
 {
   const NAME = 'title';
  /**
@@ -22,6 +26,10 @@ class TitleManager
    */
   protected $level = 0;
 
+  /**
+   *
+   * @var array
+   */
   protected $levelRail = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
   /**
@@ -32,8 +40,17 @@ class TitleManager
    */
   protected $titleMask = array('num', 'num', 'num', 'num', 'num', 'num', 'num', 'num');
 
+  /**
+   *
+   * @var array
+   */
   protected $title = array();
 
+  /**
+   * Return the current title level
+   *
+   * @return int
+   */
   public function getLevel()
   {
     return $this->level;
@@ -69,4 +86,17 @@ class TitleManager
 
     return '';
   }
+
+  /**
+   *
+   * @param \Flownode\Babel\Manager\TOCManager $tocManager
+   * @param type $prefix
+   * @param type $name
+   * @param type $page
+   */
+  public function registerTOC(TOCManager $tocManager, $prefix, $name, $page = null)
+  {
+    $tocManager->register($prefix, $name, $page);
+  }
+
 }
