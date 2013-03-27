@@ -115,7 +115,7 @@ abstract class Element extends \ArrayObject implements ElementInterface
   {
     if(null === $this->id)
     {
-      return uniqid('flownode-babel-id-');
+      return $this->id = uniqid('flownode-babel-id-');
     }
 
     return $this->id;
