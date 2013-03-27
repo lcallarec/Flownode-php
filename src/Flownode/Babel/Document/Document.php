@@ -50,14 +50,14 @@ class Document extends \ArrayObject implements ElementInterface
   /**
    * Add a component to the document
    *
-   * @param \Flownode\Babel\Document\Element\ElementInterface $component
+   * @param \Flownode\Babel\Document\Element\ElementInterface $element
    * @return \Flownode\Babel\Document\Element\ElementInterface
    */
-  public function add(ElementInterface $component)
+  public function add(ElementInterface $element)
   {
-    $component->setDocument($this);
+    $element->setDocument($this);
 
-    $this->append($component);
+    $this->append($element);
 
     return $component;
   }
