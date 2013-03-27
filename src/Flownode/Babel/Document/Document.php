@@ -32,6 +32,12 @@ class Document extends \ArrayObject implements ElementInterface
   protected $formatter;
 
   /**
+   * Hash of manager
+   * @var array
+   */
+  protected $managers;
+
+  /**
    *
    * @param \Flownode\Babel\Formatter\FormatterInterface $formatter
    */
@@ -100,5 +106,26 @@ class Document extends \ArrayObject implements ElementInterface
   {
     return $this->formatter;
   }
+
+   /**
+   *
+   * @param $manager
+   * @return self
+   */
+  public function setManager($manager)
+  {
+    $this->managers[$manager::NAME] = $manager;
+
+    return $this;
+  }
+
+  /**
+   * @return $manager
+   */
+  public function getManager($type)
+  {
+    return $this->managers[$type];
+  }
+
 
 }

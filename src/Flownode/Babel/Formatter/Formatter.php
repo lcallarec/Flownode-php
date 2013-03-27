@@ -48,13 +48,6 @@ abstract class Formatter implements FormatterInterface
    */
   protected $fontSize   = '10';
 
-
-  /**
-   * Hash of manager
-   * @var array
-   */
-  protected $managers;
-
   /**
    *
    * @param Decorator $decorator
@@ -132,27 +125,6 @@ abstract class Formatter implements FormatterInterface
       $closure($this, $arg1, $arg2, $arg3, $arg4);
     }
   }
-
-  /**
-   *
-   * @param $manager
-   * @return self
-   */
-  public function setManager($manager)
-  {
-    $this->managers[$manager::NAME] = $manager;
-
-    return $this;
-  }
-
-  /**
-   * @return $manager
-   */
-  public function getManager($type)
-  {
-    return $this->managers[$type];
-  }
-
 
   /**
    * Call the formatter according to Element type

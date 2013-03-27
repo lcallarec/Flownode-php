@@ -65,7 +65,7 @@ abstract class Element extends \ArrayObject implements ElementInterface
 
     $this->setFormatter($document->getFormatter());
 
-    return $document;
+    return $this;
   }
 
   /**
