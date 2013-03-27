@@ -108,7 +108,7 @@ abstract class Element extends \ArrayObject implements ElementInterface
 
   /**
    * Get the element id
-   * 
+   *
    * @return string
    */
   public function getId()
@@ -118,6 +118,6 @@ abstract class Element extends \ArrayObject implements ElementInterface
       return uniqid('flownode-babel-id-');
     }
 
-    return $this->id:
+    return $this->id;
   }
 }
