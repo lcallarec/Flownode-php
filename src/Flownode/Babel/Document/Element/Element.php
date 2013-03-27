@@ -43,6 +43,13 @@ abstract class Element extends \ArrayObject implements ElementInterface
   protected $rules;
 
   /**
+   * Element id, should be unique inside a same document
+   * Used for anchors
+   * @var string
+   */
+  protected $id = null;
+
+  /**
    *
    * @param FormatterInterface $formatter
    * @return self
@@ -84,5 +91,33 @@ abstract class Element extends \ArrayObject implements ElementInterface
   public function getRules()
   {
     return $this->rules;
+  }
+
+  /**
+   * Assign an id to this element
+   *
+   * @param string $id
+   * @return \Flownode\Babel\Document\Element\Element
+   */
+  public function setId($id)
+  {
+    $this->id = (string) $id;
+
+    return $this;
+  }
+
+  /**
+   * Get the element id
+   * 
+   * @return string
+   */
+  public function getId()
+  {
+    if(null === $this->id)
+    {
+      return uniqid('flownode-babel-id-');
+    }
+
+    return $this->id:
   }
 }
