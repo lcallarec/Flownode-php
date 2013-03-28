@@ -20,13 +20,11 @@ class Hr extends Element
   const TYPE = 'hr';
   /**
    *
-   * @param string $text
+   * @param mixed $text (string or array of strings)
    */
   public function __construct($rules = 'default')
   {
     $this->rules = $rules;
   }
 
-
 }
-
