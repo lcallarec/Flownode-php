@@ -24,8 +24,23 @@ Flownode\Babel\Manager\Manager
  *
  * @author Laurent CALLAREC <l.callarec@gmail.com>
  */
-class Document extends \ArrayObject implements ElementInterface
+class Document implements ElementInterface, \ArrayAccess
 {
+  /**
+   * Container all elements
+   * @var \Flownode\Babel\Document\Element\Element
+   */
+  protected $elements = array();
+
+  /**
+   * Current iterator position
+   * Adding an element increment $position by 10
+   * It's easier to move elements after assignation
+   *
+   * @var int
+   */
+  protected $position = 0;
+
   /**
    * \Flownode\Babel\Formatter\FormatterInterface
    * @var FormatterInterface
@@ -51,15 +66,22 @@ class Document extends \ArrayObject implements ElementInterface
    * Add a component to the document
    *
    * @param \Flownode\Babel\Document\Element\ElementInterface $element
+   * @param int $position   The element position ; is used to assign an element before another
    * @return \Flownode\Babel\Document\Element\ElementInterface
    */
-  public function add(ElementInterface $element)
+  public function add(ElementInterface $element, $position = null)
   {
     $element->setDocument($this);
 
-    $this->append($element);
+    if(null === $position)
+    {
+      $this->position += 10;
+      (int) $position = $this->position;
+    }
 
-    return $component;
+    $this->offsetSet($position, $element);
+
+    return $element;
   }
 
   /**
@@ -69,14 +91,11 @@ class Document extends \ArrayObject implements ElementInterface
    */
   public function format()
   {
-    foreach($this as $component)
+    //sort elements by keys, if an element was adding at a specified position
+    ksort($this->elements);
+    foreach($this->elements as $position => $element)
     {
-      $this->formatter->format($component);
-    }
-
-    foreach($this->managers as $manager)
-    {
-      $manager->format();
+      $this->formatter->format($element, $position);
     }
 
     return $this;
@@ -139,5 +158,29 @@ class Document extends \ArrayObject implements ElementInterface
     return null;
   }
 
+  public function offsetSet($offset, $value)
+  {
+    $this->position = $offset;
 
+    $this->elements[$this->position] = $value;
+
+    return $this;
+  }
+
+  public function offsetGet($offset)
+  {
+    return $this->elements[$offset];
+  }
+
+  public function offsetUnset($offset)
+  {
+    unset($this->elements[$offset]);
+
+    return $this;
+  }
+
+  public function offsetExists($offset)
+  {
+    return isset($this->elements[$offset]);
+  }
 }
