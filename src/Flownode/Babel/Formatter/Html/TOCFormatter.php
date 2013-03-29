@@ -30,7 +30,7 @@ class TOCFormatter
     $this->content = '';
     foreach($toc->getTitles() as $title)
     {
-      $this->content .= '<a href="#'.$title['id'].'">'.$title['name'].'</a><br />';
+      $this->content .= '<a href="#'.$title['id'].'">'.$title['prefix'].' '.$title['name'].'</a><br />';
     }
   }
 

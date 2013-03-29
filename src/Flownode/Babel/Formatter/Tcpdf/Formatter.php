@@ -76,7 +76,7 @@ class Formatter extends AbstractFormatter
 
     $this->executeRules('header.'.$title->getLevel(), $titleName, $borders);
 
-    $this->content->Bookmark( $title->getPrefix().$titleName, $title->getLevel());
+    $this->content->Bookmark($title->getPrefix().$titleName, $title->getLevel());
     $this->content->Cell(0, 10, $title->getPrefix().$titleName, $borders, 1);
 
     $this->content->Ln(5);
@@ -130,23 +130,13 @@ class Formatter extends AbstractFormatter
 
   /**
    *
-   * @param \Flownode\Babel\Document\Element\Link $link
-   * @param string  $position
+   * @param \Flownode\Babel\Document\Element\TOC $toc
    * @return void
    */
-  public function addTOC(\Flownode\Babel\Manager\TOCManager $toc, $position)
+  public function addTOC(\Flownode\Babel\Document\Element\TOC $toc, $position)
   {
     $this->content->addTOCPage();
-    if($position === \Flownode\Babel\Manager\TOCManager::POSITION_FIRST)
-    {
-      $position = 1;
-    }
-    else
-    {
-      $position = '';
-    }
-
-    $this->content->addTOC($position);
+    $this->content->addTOC(1);
     $this->content->endTOCPage();
   }
 

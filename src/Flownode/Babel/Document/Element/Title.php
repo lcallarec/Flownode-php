@@ -114,11 +114,7 @@ class Title extends Element
 
     $this->prefix = $this->document->getManager('title')->getTitlePrefix($this->level);
 
-    if($toc = $this->document->getManager('toc'))
-    {
-      $this->document->getManager('title')->registerTOC($toc, $this->prefix, $this->title);
-    }
-
+    $this->document->getManager('title')->register($this->prefix, $this->title, $this->getId());
   }
 }
 

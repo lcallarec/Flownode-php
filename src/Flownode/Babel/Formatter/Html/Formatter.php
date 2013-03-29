@@ -73,7 +73,6 @@ class Formatter extends AbstractFormatter
     }
 
     $attributes = $this->formatStyle($attributes);
-    $title->getDocument()->getManager('toc')->register($title->getPrefix(), $titleName, $title->getId());
 
     $this->content .= '<h'.$level.' '.$attributes.'>'.$title->getPrefix().$titleName.'</h'.$level.'>';
   }
@@ -168,22 +167,14 @@ class Formatter extends AbstractFormatter
 
   /**
    *
-   * @param \Flownode\Babel\Document\Element\Link $link
-   * @param string $position
+   * @param \Flownode\Babel\Document\Element\TOC $toc
    * @return void
    */
-  public function addTOC(\Flownode\Babel\Manager\TOCManager $toc, $position)
+  public function addTOC(\Flownode\Babel\Document\Element\TOC $toc)
   {
     $formatter = new TOCFormatter($this, $toc);
 
-    if($position === \Flownode\Babel\Manager\TOCManager::POSITION_FIRST)
-    {
-      $this->content = $formatter->getContent().$this->content;
-    }
-    else
-    {
-      $this->content .= $formatter->getContent();
-    }
+    $this->content .= $formatter->getContent();
   }
 
 

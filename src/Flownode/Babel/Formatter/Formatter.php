@@ -130,11 +130,11 @@ abstract class Formatter implements FormatterInterface
    * Call the formatter according to Element type
    * @param \Flownode\Babel\Document\Element\ElementInterface $element
    */
-  public function format(ElementInterface $element)
+  public function format(ElementInterface $element, $position)
   {
     $method = ucfirst($element::TYPE);
 
-    $this->{'add'.$method}($element);
+    $this->{'add'.$method}($element, $position);
   }
 
 }

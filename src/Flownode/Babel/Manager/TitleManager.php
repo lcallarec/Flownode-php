@@ -9,9 +9,6 @@
  */
 namespace Flownode\Babel\Manager;
 
-use
-  Flownode\Babel\Manager\TOCManager
-;
 /**
  *
  * @author Laurent CALLAREC <l.callarec@gmail.com>
@@ -45,6 +42,12 @@ class TitleManager extends Manager
    * @var array
    */
   protected $title = array();
+
+  /**
+   *
+   * @var array
+   */
+  public $toc;
 
   /**
    * Return the current title level
@@ -87,16 +90,16 @@ class TitleManager extends Manager
     return '';
   }
 
-  /**
+ /**
+   * Register a title to the TOC
    *
-   * @param \Flownode\Babel\Manager\TOCManager $tocManager
-   * @param type $prefix
-   * @param type $name
-   * @param type $page
+   * @param type   $prefix  refix name (like 1.1.2.4)
+   * @param string $name    Entry name
+   * @param string $id      "Anchor" id
    */
-  public function registerTOC(TOCManager $tocManager, $prefix, $name, $page = null)
+  public function register($prefix, $name, $id)
   {
-    $tocManager->register($prefix, $name, $page);
+    $this->toc[] = array('prefix' => $prefix, 'name' => $name, 'id' => $id);
   }
 
 }
