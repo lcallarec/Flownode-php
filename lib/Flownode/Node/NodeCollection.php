@@ -1,12 +1,12 @@
 <?php
-namespace Flownode\UI\Common\DOM;
+namespace Flownode\Node;
 
-use Flownode\UI\Common\DOM\Node;
+use Flownode\Node\Node;
 
 /**
  * Node collection
  *
- * Used to create nodes without any node root. 
+ * Used to create nodes without any node root.
  *
  * @author lcallarec
  */
