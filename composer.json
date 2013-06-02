@@ -9,6 +9,6 @@
         }
     ],
      "autoload": {
-        "psr-0": {"Flownode": "src/"}
+        "psr-0": {"Flownode": "lib/"}
     }
 }
