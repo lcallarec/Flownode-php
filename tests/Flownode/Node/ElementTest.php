@@ -1,6 +1,6 @@
 <?php
 
-namespace Flownode\UI\Common\DOM;
+namespace Flownode\Node;
 
 /**
  * Test class for Element.
