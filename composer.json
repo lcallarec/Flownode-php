@@ -10,9 +10,5 @@
     ],
      "autoload": {
         "psr-0": {"Flownode": "src/"}
-    },
-    "require": {
-      "tcpdf/tcpdf": "dev-master",
-     " phpexcel/phpexcel" : ">=1.7.7"
     }
 }
