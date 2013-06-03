@@ -11,168 +11,299 @@ class NodeTest extends \PHPUnit_Framework_TestCase
   /**
    * @var Node
    */
-  protected $object;
+  protected $root;
 
   /**
-   * Sets up the fixture, for example, opens a network connection.
    * This method is called before a test is executed.
    */
-  protected function setUp()
+  protected function setUp($tag = 'div', $attributes = array())
   {
-    $this->object = new Node;
+    $this->root = new Node($tag, $attributes);
 
   }
 
   /**
-   * Tears down the fixture, for example, closes a network connection.
    * This method is called after a test is executed.
    */
   protected function tearDown()
   {
+    unset($this->root);
+  }
+
+  /**
+   * @covers Flownode\Node\Node::_constructor
+   */
+  public function testRootAsNoParent()
+  {
+    //Root has no parent !
+    $this->assertNull($this->root->getParent());
+  }
+
+  /**
+   * @covers Flownode\Node\Node::getAttributesString
+   */
+  public function testGetAttributesString()
+  {
+    $aString = $this->root->getAttributesString(array('test' => 5, 'test2' => array(5, 8)));
+
+    $expected = ' test="5" test2="5;8;"';
+
+    $this->assertEquals($aString, $expected);
+
+  }
+
+  /**
+   * @covers Flownode\Node\Node::getAttributesString
+   */
+  public function testGetAttributesStringWithCustomPattern()
+  {
+    $aString = $this->root->getAttributesString(array('test' => 5, 'test2' => 6), '%attribute%=%value%', '@');
+
+    $expected = 'test=5test2=6';
+
+    $this->assertEquals($aString, $expected);
+
+  }
+
+  /**
+   * @covers Flownode\Node\Node::setAttributes
+   * @covers Flownode\Node\Node::setAttribute
+   */
+  public function testAttributeSetters()
+  {
+    $this->setUp('span', array('class' => 'class1', 'style' => 'width: 20px;'));
+
+    $tag = $this->root->close()->render();
+
+    $assert = '<span class="class1" style="width: 20px;"></span>';
+
+    $this->assertEquals($tag, $assert);
+  }
+
+  /**
+   * @covers Flownode\Node\Node::setText
+   * @covers Flownode\Node\Node::getText
+   */
+  public function testSetGetText()
+  {
+    $this->setUp('span');
+
+    $this->root->setText('my text');
+
+    $text = $this->root->getText();
+
+    $expected = 'my text';
+
+    $this->assertEquals($text, $expected);
 
   }
 
   /**
    * @covers Flownode\UI\Common\DOM\Node::open
-   * @todo Implement testOpen().
    */
   public function testOpen()
   {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
+    $this->setUp('a');
 
+    $tag = $this->root->open('b')->open('d')->close()->close()->render();
+
+    $expected = '<a><b><d></d></b></a>';
+
+    $this->assertEquals($tag, $expected);
   }
 
-  /**
-   * @covers Flownode\UI\Common\DOM\Node::close
-   * @todo Implement testClose().
+ /**
+   * Test if open method is returning the newly created node
+   * @covers Flownode\UI\Common\DOM\Node::open
    */
-  public function testClose()
+  public function testOpenReturnObject()
   {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
+    $this->setUp('i');
+
+    $node = $this->root->open('u');
+
+    $this->assertNotSame($node, $this->root);
+
+    $newNode = new Node('u');
+
+    $this->assertEquals($node->render(), $newNode->render());
 
   }
 
   /**
+   * Test if the close method return the calling object
+   *
+   * @covers Flownode\UI\Common\DOM\Node::close
+   */
+  public function testCloseReturnObject()
+  {
+    $this->setUp('i');
+
+    $node = $this->root->open('u')->close();
+
+    $this->assertSame($node, $this->root);
+
+    $node = $this->root->open('g');
+
+    $this->assertNotSame($node, $this->root);
+  }
+
+  /**
+   *
    * @covers Flownode\UI\Common\DOM\Node::setAttributes
-   * @todo Implement testSetAttributes().
    */
   public function testSetAttributes()
   {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
+     $this->setUp('i');
 
-  }
+     $tag = $this->root->setAttributes(array('test' => 'abc'))->render();
 
-  /**
-   * @covers Flownode\UI\Common\DOM\Node::set
-   * @todo Implement testSet().
-   */
-  public function testSet()
-  {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
+     $expected = '<i test="abc"></i>';
+
+     $this->assertEquals($tag, $expected);
 
   }
 
   /**
    * @covers Flownode\UI\Common\DOM\Node::setAttribute
-   * @todo Implement testSetAttribute().
    */
-  public function testSetAttribute()
+  public function testSetAttributeReturnValue()
   {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
+     $this->setUp('i');
+
+     $node = $this->root->setAttribute('attr', '1000');
+
+     $this->assertSame($node, $this->root);
 
   }
 
   /**
-   * @covers Flownode\UI\Common\DOM\Node::getParent
-   * @todo Implement testGetParent().
+   * @covers Flownode\UI\Common\DOM\Node::setAttribute
    */
-  public function testGetParent()
+  public function testSetAttribute()
   {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
+     $this->setUp('i');
 
+     $tag = $this->root->setAttribute('attr', '1000')->render();
+
+     $expected = '<i attr="1000"></i>';
+
+     $this->assertEquals($tag, $expected);
+
+  }
+
+  /**
+   * Check if the method return the calling node*
+   * @covers Flownode\UI\Common\DOM\Node::set
+   */
+  public function testSet()
+  {
+     $this->setUp('i');
+
+     $tag = $this->root->set('attr', '1000')->render();
+
+     $expected = '<i attr="1000"></i>';
+
+     $this->assertEquals($tag, $expected);
+  }
+
+ /**
+  * Check if the method return the calling node
+  * @covers Flownode\UI\Common\DOM\Node::set
+  */
+  public function testSetReturnValue()
+  {
+     $this->setUp('i');
+
+     $node = $this->root->set('attr2', '10002');
+
+     $this->assertSame($node, $this->root);
+  }
+
+  /**
+   * Check if parent is null when called on a root node
+   * @covers Flownode\UI\Common\DOM\Node::getParent
+   */
+  public function testGetParentIsNullForRoot()
+  {
+    $this->setUp('a');
+
+    $parent = $this->root->getParent();
+
+    $this->assertNull($parent);
+  }
+
+  /**
+   * Check if parent is null when called on a root node
+   * @covers Flownode\UI\Common\DOM\Node::getParent
+   */
+  public function testGetParentReturnTheTrueParent()
+  {
+    $this->setUp('a');
+
+    $root = $this->root;
+
+    $child = $this->root->open('a');
+
+    $secondChild = $child->open('b');
+
+    $this->assertSame($root, $child->getParent());
+    $this->assertSame($child, $secondChild->getParent());
   }
 
   /**
    * @covers Flownode\UI\Common\DOM\Node::setParent
-   * @todo Implement testSetParent().
    */
   public function testSetParent()
   {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
+    $this->setUp('a');
+
+    $root = $this->root;
+
+    $child = $this->root->open('a');
+
+    $secondChild = $child->open('b')->setParent($root);
+
+    $this->assertSame($root, $child->getParent());
+    $this->assertNotSame($child, $secondChild->getParent());
+    $this->assertSame($root, $secondChild->getParent());
 
   }
 
   /**
+   * Test addChild return value
+   *
    * @covers Flownode\UI\Common\DOM\Node::addChild
-   * @todo Implement testAddChild().
+   */
+  public function testAddChildReturnValue()
+  {
+    $this->setUp('a');
+
+    $child = new Node('c');
+
+    $node = $this->root->addChild($child);
+
+    $this->assertSame($node, $this->root);
+  }
+
+ /**
+   * Test if addChild is really adding a child
+   *
+   * @covers Flownode\UI\Common\DOM\Node::addChild
    */
   public function testAddChild()
   {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
+    $this->setUp('a');
 
-  }
+    $child = new Node('c');
 
-  /**
-   * @covers Flownode\UI\Common\DOM\Node::getText
-   * @todo Implement testGetText().
-   */
-  public function testGetText()
-  {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
+    $node = $this->root->addChild($child);
 
-  }
+    $tag = $this->root->render();
 
-  /**
-   * @covers Flownode\UI\Common\DOM\Node::setText
-   * @todo Implement testSetText().
-   */
-  public function testSetText()
-  {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
+    $expected = '<a><c></c></a>';
 
-  }
-
-  /**
-   * @covers Flownode\UI\Common\DOM\Node::getAttributesString
-   * @todo Implement testGetAttributesString().
-   */
-  public function testGetAttributesString()
-  {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
-
+    $this->assertEquals($tag, $expected);
   }
 
   /**
@@ -202,17 +333,17 @@ class NodeTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
+   * Check if the method return the calling node
    * @covers Flownode\UI\Common\DOM\Node::setTagName
-   * @todo Implement testSetTagName().
    */
-  public function testSetTagName()
+  public function testSetTagNameReturnValue()
   {
-    // Remove the following lines when you implement this test.
-    $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-    );
+    $this->setUp('a');
+
+    $node = $this->root->setTagName('t');
+
+    $this->assertSame($this->root, $node);
 
   }
 
 }
-?>
