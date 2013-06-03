@@ -34,7 +34,7 @@ class Node
    *
    * @var string
    */
-  protected $tag;
+  protected $tagName;
 
   /**
    * Parent node. Null for root node
@@ -68,7 +68,7 @@ class Node
    * @param string $tagName
    * @param array  $attributes
    */
-  public function __construct($tag = null, $attributes = array())
+  public function __construct($tag = null, array $attributes = array())
   {
     $this->tagName = $tag;
 
@@ -204,14 +204,26 @@ class Node
   }
 
   /**
+   * Get the node content
+   * (the text of child nodes are not concerned)
    *
    * @return string
    */
   public function getText()
   {
+    return $this->text;
+  }
+
+  /**
+   * Render the node and return its string representation
+   *
+   * @return string
+   */
+  public function render()
+  {
     foreach($this->child as $child)
     {
-      $this->text .= $child->getText();
+      $this->text .= $child->render();
     }
 
     $this->sAttributes = $this->getAttributesString($this->attributes);
@@ -221,6 +233,7 @@ class Node
   }
 
   /**
+   * Set the node content
    *
    * @return type
    */
@@ -235,24 +248,23 @@ class Node
   /**
    * Get formatted string from array of attributes
    *
-   * @param array   $attributes
+   * @param array   $attributes     Attributes values can be scalar or arrays
    * @param string  $pattern
-   * @param string  $valueSeparator
+   * @param string  $valueSeparator Separator between array attribute values
    * @return string
    */
-  public function getAttributesString($attributes, $pattern = ' %attribute%="%value%"', $valueSeparator = '')
+  public function getAttributesString($attributes, $pattern = ' %attribute%="%value%"', $valueSeparator = ';')
   {
     $string = '';
     foreach($attributes as $attribute => $value)
     {
       if(true === is_array($value))
       {
-        $string .= strtr($pattern, array('%attribute%' => $attribute, '%value%' => $this->getAttributesString($value, '%attribute%: %value%;')));
+        $value = implode($valueSeparator, $value) . $valueSeparator;
       }
-      else
-      {
-        $string .= strtr($pattern, array('%attribute%' => $attribute, '%value%' => $value));
-      }
+
+      $string .= strtr($pattern, array('%attribute%' => $attribute, '%value%' => $value));
+
     }
 
     return $string;
@@ -286,20 +298,6 @@ class Node
     }
 
     return $this->setAttribute($name, $arguments[0]);
-
-  }
-
-  /**
-   * Used to set a new tag name after object initialization
-   *
-   * @param string $tag
-   * @return Flownode\Writer\Html\Node
-   */
-  public function setTagName($tag)
-  {
-    $this->tag = $tag;
-
-    return $this;
 
   }
 
