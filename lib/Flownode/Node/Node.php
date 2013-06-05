@@ -22,14 +22,6 @@ class Node
   protected $attributes;
 
   /**
-   * String representation of $attributes var
-   * @see self::setAttributesString()
-   *
-   * @var string
-   */
-  protected $sAttributes;
-
-  /**
    * Node tag name
    *
    * @var string
@@ -48,7 +40,7 @@ class Node
    *
    * @var array<i, Flownode\Node>
    */
-  protected $child = array();
+  protected $childs = array();
 
   /**
    * Node string represntation
@@ -197,7 +189,7 @@ class Node
   {
     $node->setParent($this);
 
-    $this->child[] = $node;
+    $this->childs[] = $node;
 
     return $this;
 
@@ -221,14 +213,14 @@ class Node
    */
   public function render()
   {
-    foreach($this->child as $child)
+    foreach($this->childs as $child)
     {
       $this->text .= $child->render();
     }
 
-    $this->sAttributes = $this->getAttributesString($this->attributes);
+    $sAttributes = $this->getAttributesString($this->attributes);
 
-    return strtr($this->template, array('%attributes%' => $this->sAttributes, '%content%' => $this->text));
+    return strtr($this->template, array('%attributes%' => $sAttributes, '%content%' => $this->text));
 
   }
 
