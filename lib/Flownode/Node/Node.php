@@ -245,7 +245,7 @@ class Node
    * @param string  $valueSeparator Separator between array attribute values
    * @return string
    */
-  public function getAttributesString($attributes, $pattern = ' %attribute%="%value%"', $valueSeparator = ';')
+  protected function getAttributesString($attributes, $pattern = ' %attribute%="%value%"', $valueSeparator = ';')
   {
     $string = '';
     foreach($attributes as $attribute => $value)

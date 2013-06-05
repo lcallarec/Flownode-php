@@ -40,32 +40,6 @@ class NodeTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * @covers Flownode\Node\Node::getAttributesString
-   */
-  public function testGetAttributesString()
-  {
-    $aString = $this->root->getAttributesString(array('test' => 5, 'test2' => array(5, 8)));
-
-    $expected = ' test="5" test2="5;8;"';
-
-    $this->assertEquals($aString, $expected);
-
-  }
-
-  /**
-   * @covers Flownode\Node\Node::getAttributesString
-   */
-  public function testGetAttributesStringWithCustomPattern()
-  {
-    $aString = $this->root->getAttributesString(array('test' => 5, 'test2' => 6), '%attribute%=%value%', '@');
-
-    $expected = 'test=5test2=6';
-
-    $this->assertEquals($aString, $expected);
-
-  }
-
-  /**
    * @covers Flownode\Node\Node::setAttributes
    * @covers Flownode\Node\Node::setAttribute
    */
@@ -76,6 +50,21 @@ class NodeTest extends \PHPUnit_Framework_TestCase
     $tag = $this->root->close()->render();
 
     $assert = '<span class="class1" style="width: 20px;"></span>';
+
+    $this->assertEquals($tag, $assert);
+  }
+
+  /**
+   * @covers Flownode\Node\Node::setAttributes
+   * @covers Flownode\Node\Node::setAttribute
+   */
+  public function testAttributeSettersWithArrayValues()
+  {
+    $this->setUp('span', array('class' => 'class1', 'style' => array('width: 20px', 'height: 50px')));
+
+    $tag = $this->root->close()->render();
+
+    $assert = '<span class="class1" style="width: 20px;height: 50px;"></span>';
 
     $this->assertEquals($tag, $assert);
   }
