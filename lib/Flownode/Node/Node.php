@@ -57,6 +57,12 @@ class Node
 
   /**
    *
+   * @var Node
+   */
+  protected $lastOpenedNode;
+
+  /**
+   *
    * @param string $tagName
    * @param array  $attributes
    */
@@ -78,7 +84,7 @@ class Node
    * Open a new node inside the current node.
    * The created node is added to child node stack.
    *
-   * @return Flownode\Node
+   * @return Flownode\Node\Node
    */
   public function open($tag, $attributes = array())
   {
@@ -93,7 +99,7 @@ class Node
   /**
    * Close the current node.
    *
-   * @return Flownode\Node
+   * @return Flownode\Node\Node
    */
   public function close($autoClose = false)
   {
@@ -116,7 +122,7 @@ class Node
    *
    * @param array $attributes ['attribute' => 'value' [, 'other_attribute' => 'other_value']]
    *
-   * @return Flownode\Node
+   * @return Flownode\Node\Node
    */
   public function setAttributes($attributes)
   {
@@ -130,7 +136,7 @@ class Node
    *
    * @see Node::setAttribute
    *
-   * @return Flownode\Node
+   * @return Flownode\Node\Node
    */
   public function set($attribute, $value)
   {
@@ -143,7 +149,7 @@ class Node
    *
    * @param string  $attribute
    * @param string  $value
-   * @return Flownode\Node
+   * @return Flownode\Node\Node
    */
   public function setAttribute($attribute, $value)
   {
@@ -156,7 +162,7 @@ class Node
   /**
    * get the parent node of the current node
    *
-   * @return Flownode\Node
+   * @return Flownode\Node\Node
    */
   public function getParent()
   {
@@ -167,9 +173,9 @@ class Node
   /**
    * Set the parent node of the current node
    *
-   * @param Flownode\Node  $node
+   * @param Flownode\Node\Node  $node
    *
-   * @return Flownode\Node
+   * @return Flownode\Node\Node
    */
   public function setParent(Node $node)
   {
@@ -182,8 +188,8 @@ class Node
   /**
    * Add a child to the current node
    *
-   * @param Flownode\Node  $$node
-   * @return Flownode\Node
+   * @param Flownode\Node\Node  $node
+   * @return Flownode\Node\Node
    */
   public function addChild(Node $node)
   {
@@ -227,7 +233,7 @@ class Node
   /**
    * Set the node content
    *
-   * @return type
+   * @return Flownode\Node\Node
    */
   public function setText($text = '')
   {
@@ -263,6 +269,12 @@ class Node
 
   }
 
+  /**
+   * Modify the rendering template after initialization and before rendering
+   *
+   * @param type $template
+   * @return \Flownode\Node\Node
+   */
   public function setTemplate($template = '%attributes% : %content%')
   {
     $this->template = $template;
@@ -277,10 +289,11 @@ class Node
    * <code>
    * $node = new Element('a');
    * $node->href('www.google.com')->class('button')->close();
-   *
+   * </code>
+   * 
    * @param type $name
    * @param type $arguments
-   * @return Element
+   * @return Flownode\Node\Node
    */
   public function __call($name, $arguments)
   {
