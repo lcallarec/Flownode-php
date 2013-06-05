@@ -181,21 +181,6 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 
   }
 
-  /**
-   * Check if the method return the calling node*
-   * @covers Flownode\UI\Common\DOM\Node::set
-   */
-  public function testSet()
-  {
-     $this->setUp('i');
-
-     $tag = $this->root->set('attr', '1000')->render();
-
-     $expected = '<i attr="1000"></i>';
-
-     $this->assertEquals($tag, $expected);
-  }
-
  /**
   * Check if the method return the calling node
   * @covers Flownode\UI\Common\DOM\Node::set
@@ -333,6 +318,23 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 
     $this->assertSame($this->root, $node);
 
+  }
+
+  /**
+   * @covers Flownode\Node\Node::setAttributes
+   * @covers Flownode\Node\Node::setAttribute
+   */
+  public function testLastOpendedNode()
+  {
+    $this->setUp('span');
+
+    $this->root->open('i');
+
+    $tag = $this->root->setAttribute('class', 'class1')->render();
+
+    $assert = '<span><i class="class1"></i></span>';
+
+    $this->assertEquals($assert, $tag);
   }
 
 }

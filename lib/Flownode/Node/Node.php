@@ -56,6 +56,7 @@ class Node
   protected $template = '%content%';
 
   /**
+   * The last node opened
    *
    * @var Node
    */
@@ -69,6 +70,8 @@ class Node
   public function __construct($tag = null, array $attributes = array())
   {
     $this->tagName = $tag;
+
+    $this->lastOpenedNode = $this;
 
     $this->setAttributes($attributes);
 
@@ -84,15 +87,22 @@ class Node
    * Open a new node inside the current node.
    * The created node is added to child node stack.
    *
-   * @return Flownode\Node\Node
+   * @param string $tag           The tag name
+   * @param bool   $flow          Is false, the lastOpended node will always be self
+   * @return Flownode\Node\Node The newly added node
    */
-  public function open($tag, $attributes = array())
+  public function open($tag, $flow = true)
   {
-    $node = new self($tag, $attributes);
+    $node = new self($tag);
 
-    $this->addChild($node);
+    $this->lastOpenedNode->addChild($node);
 
-    return $node;
+    if(true === $flow)
+    {
+      $this->lastOpenedNode = $node;
+    }
+
+    return $this->lastOpenedNode;
 
   }
 
@@ -105,7 +115,7 @@ class Node
   {
     if(true === $autoClose)
     {
-      $this->template = '<'.$this->tagName.'%attributes% />';
+      $this->lastOpenedNode->setTemplate = '<'.$this->tagName.'%attributes% />';
     }
 
     if(null !== $this->parent)
@@ -126,21 +136,16 @@ class Node
    */
   public function setAttributes($attributes)
   {
-    $this->attributes = $attributes;
+    if($this->lastOpenedNode === $this)
+    {
+      $this->attributes = $attributes;
+    }
+    else
+    {
+      $this->lastOpenedNode->setAttributes($attributes);
+    }
 
     return $this;
-
-  }
-
-  /**
-   *
-   * @see Node::setAttribute
-   *
-   * @return Flownode\Node\Node
-   */
-  public function set($attribute, $value)
-  {
-    return $this->setAttribute($attribute, $value);
 
   }
 
@@ -153,7 +158,14 @@ class Node
    */
   public function setAttribute($attribute, $value)
   {
-    $this->attributes[$attribute] = $value;
+    if($this->lastOpenedNode === $this)
+    {
+      $this->attributes[$attribute] = $value;
+    }
+    else
+    {
+      $this->lastOpenedNode->setAttribute($attribute, $value);
+    }
 
     return $this;
 
@@ -179,7 +191,14 @@ class Node
    */
   public function setParent(Node $node)
   {
-    $this->parent = $node;
+    if($this->lastOpenedNode === $this)
+    {
+      $this->parent = $node;
+    }
+    else
+    {
+      $this->lastOpenedNode->setParent($node);
+    }
 
     return $this;
 
@@ -237,13 +256,64 @@ class Node
    */
   public function setText($text = '')
   {
-    $this->text .= $text;
+    if($this->lastOpenedNode === $this)
+    {
+      $this->text .= $text;
+    }
+    else
+    {
+      $this->lastOpenedNode->setText($text);
+    }
 
     return $this;
 
   }
 
   /**
+   * Modify the rendering template after initialization and before rendering
+   *
+   * @param type $template
+   * @return \Flownode\Node\Node
+   */
+  public function setTemplate($template = '%attributes% : %content%')
+  {
+    if($this->lastOpenedNode === $this)
+    {
+      $this->template = $template;
+    }
+    else
+    {
+      $this->setTemplate($template);
+    }
+
+    return $this;
+
+  }
+
+  /**
+   * The lazy way to set an element attributes
+   *
+   * <code>
+   * $node = new Element('a');
+   * $node->href('www.google.com')->class('button')->close();
+   * </code>
+   *
+   * @param type $name
+   * @param type $arguments
+   * @return Flownode\Node\Node
+   */
+  public function __call($name, $arguments)
+  {
+    if(empty($arguments))
+    {
+      $arguments[0] = '';
+    }
+
+    return $this->setAttribute($name, $arguments[0]);
+
+  }
+
+   /**
    * Get formatted string from array of attributes
    *
    * @param array   $attributes     Attributes values can be scalar or arrays
@@ -269,41 +339,5 @@ class Node
 
   }
 
-  /**
-   * Modify the rendering template after initialization and before rendering
-   *
-   * @param type $template
-   * @return \Flownode\Node\Node
-   */
-  public function setTemplate($template = '%attributes% : %content%')
-  {
-    $this->template = $template;
-
-    return $this;
-
-  }
-
-  /**
-   * The lazy way to set an element attributes
-   *
-   * <code>
-   * $node = new Element('a');
-   * $node->href('www.google.com')->class('button')->close();
-   * </code>
-   * 
-   * @param type $name
-   * @param type $arguments
-   * @return Flownode\Node\Node
-   */
-  public function __call($name, $arguments)
-  {
-    if(empty($arguments))
-    {
-      $arguments[0] = '';
-    }
-
-    return $this->setAttribute($name, $arguments[0]);
-
-  }
 
 }
